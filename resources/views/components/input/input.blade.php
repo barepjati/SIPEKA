@@ -1,6 +1,6 @@
-@props(['disabled' => false])
+@props(['required', 'readonly', 'id'])
 
-<input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => 'form-control']) !!}>
+{{-- <input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => 'form-control']) !!}> --}}
 {{-- <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email"> --}}
 
 {{-- <div class="form-group">
@@ -12,3 +12,12 @@
         value="{{ old($id) ? (!isset($name) ? old($id) : old($id)[$index]) : (isset($value) ? $value : '') }}">
 </div>
 </div> --}}
+
+<div class="form-group">
+    <x-input.label for="{{$label}}">{{$label}}</x-input.label>
+    <input {{ $attributes->merge(['type'=>'text', 'class'=>'form-control', 'placeholder'=>$label]) }}>
+</div>
+
+{{-- <input @isset($required) required="required" @endisset @isset($readonly) readonly="readonly" @endisset
+    name="{{ isset($name) ? $name : $id }}" type="text" class="form-control" id="{{ $id }}" placeholder="{{ $label }}"
+value="{{ old($id) ? (!isset($name) ? old($id) : old($id)[$index]) : (isset($value) ? $value : '') }}"> --}}

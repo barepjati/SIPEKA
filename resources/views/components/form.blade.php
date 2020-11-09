@@ -9,7 +9,7 @@
     </div>
 </div>
 
-<div class="card card-primary">
+{{-- <div class="card card-primary">
     <div class="card-header">
         <h3 class="card-title">Quick Example</h3>
     </div>
@@ -48,4 +48,8 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
-</div>
+</div> --}}
+
+@push('script')
+
+@endpush

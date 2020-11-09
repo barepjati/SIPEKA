@@ -20,16 +20,36 @@
         $('#dt').DataTable({});
     });
 </script>
-@endpush
+<script>
+    // Livewire.emit('destroy')
 
-@push('js')
-<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-@endpush
-
-@push('css')
-<link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    document.addEventListener('livewire:load', function () {
+        @this.on('destroy', id => {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    @this.call('destroy', id)
+                    Swal.fire(
+                        'Dihapus!',
+                        'Data berhasil dihapus',
+                        'success'
+                    )
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire(
+                        'Cancelled',
+                        'Data Tidak dihapus',
+                        'error'
+                    )
+                }
+            })
+        })
+    })
+</script>
 @endpush

@@ -1,5 +1,7 @@
-@props(['value'])
+{{-- @props(['value'])
 
 <label {{ $attributes }}>
-    {{ $value ?? $slot }}
-</label>
+{{ $value ?? $slot }}
+</label> --}}
+
+<label {{ $attributes }}>{{$slot}}</label>

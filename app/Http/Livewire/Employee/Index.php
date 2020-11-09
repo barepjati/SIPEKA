@@ -7,10 +7,6 @@ use Livewire\Component;
 
 class Index extends Component
 {
-    // public function mount(Employee $employee)
-    // {
-    //     $employee = Employee::all();
-    // }
 
     public function render()
     {
@@ -24,13 +20,39 @@ class Index extends Component
             ]);
     }
 
+    /**
+     * create function
+     */
     public function create()
     {
         return redirect()->route('employee.create');
     }
 
-    public function show($id)
+    /**
+     * update function
+     */
+    public function edit($id)
     {
-        # code...
+        return redirect()->route('employee.edit', $id);
+    }
+
+    /**
+     * destroy function
+     */
+    public function destroy($id)
+    {
+        $employee = Employee::find($id);
+
+        // dd($employee);
+
+        if ($employee) {
+            $employee->delete();
+        }
+
+        //flash message
+        session()->flash('message', 'Data Berhasil Dihapus.');
+
+        //redirect
+        return redirect()->route('employee.index');
     }
 }

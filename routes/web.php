@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\Employee\Index as EmployeeIndex;
 use App\Http\Livewire\Employee\Create as EmployeeCreate;
-
+use App\Http\Livewire\Employee\Update as EmployeeUpdate;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('/post', Post::class)->name('post');
     Route::get('/employee', EmployeeIndex::class)->name('employee.index');
     Route::get('/employee/create', EmployeeCreate::class)->name('employee.create');
+    Route::get('/employee/{employee}', EmployeeUpdate::class)->name('employee.edit');
 });
 
 // Route::get('/post', ShowPosts::class);
