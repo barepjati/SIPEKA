@@ -30,8 +30,8 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('/alternatif', Alternatif::class)->name('alternatif');
     // Route::get('/post', Post::class)->name('post');
     Route::get('/employee', EmployeeIndex::class)->name('employee.index');
+    Route::get('/employee/{id}', EmployeeUpdate::class)->name('employee.edit');
     Route::get('/employee/create', EmployeeCreate::class)->name('employee.create');
-    Route::get('/employee/{employee}', EmployeeUpdate::class)->name('employee.edit');
 });
 
 // Route::get('/post', ShowPosts::class);

@@ -15,7 +15,12 @@
 
 <div class="form-group">
     <x-input.label for="{{$label}}">{{$label}}</x-input.label>
-    <input {{ $attributes->merge(['type'=>'text', 'class'=>'form-control', 'placeholder'=>$label]) }}>
+    <input {{ $attributes->merge(['type'=>'text', 'class'=>'form-control', 'placeholder'=>$label, 'value']) }}>
+    @error($label)
+    <span class="invalid-feedback">
+        {{ $message }}
+    </span>
+    @enderror
 </div>
 
 {{-- <input @isset($required) required="required" @endisset @isset($readonly) readonly="readonly" @endisset
