@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Employee;
 
 use App\Models\Employee;
+use App\Models\User;
 use Livewire\Component;
 
 class Index extends Component
@@ -42,12 +43,11 @@ class Index extends Component
     public function destroy($id)
     {
         $employee = Employee::find($id);
+        $user = User::find($employee->user_id);
+        // dd($user);
 
-        // dd($employee);
-
-        if ($employee) {
-            $employee->delete();
-        }
+        $employee->delete();
+        $user->delete();
 
         //flash message
         session()->flash('message', 'Data Berhasil Dihapus.');
