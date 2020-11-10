@@ -6,6 +6,7 @@ use Illuminate\View\Component;
 
 class Input extends Component
 {
+    // public $validation;
     /**
      * Create a new component instance.
      *
@@ -13,7 +14,7 @@ class Input extends Component
      */
     public function __construct()
     {
-        //
+        // $this->validation = $validation;
     }
 
     /**

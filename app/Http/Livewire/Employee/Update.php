@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Employee;
 
 use App\Models\Employee;
+use App\Models\User;
 use Livewire\Component;
 
 class Update extends Component
@@ -19,7 +20,7 @@ class Update extends Component
      */
     public function mount($id)
     {
-        $employee = Employee::find($id);
+        $employee = Employee::findOrFail($id);
         // dd($employee->user->email);
         if ($employee) {
             $this->empId    = $employee->id;
@@ -34,21 +35,20 @@ class Update extends Component
     public function update()
     {
         $this->validate([
-            'nama'  => 'required',
-            'email' => 'required',
+            'nama'  => 'required|min:6',
+            'email' => 'required|email',
         ]);
 
-        if ($this->empId) {
+        $employee = Employee::findOrFail($this->empId);
+        // dd($employee->user);
 
-            $employee = Employee::find($this->empId);
+        $employee->update([
+            'nama'  => $this->nama,
+        ]);
 
-            if ($employee) {
-                $employee->update([
-                    'nama'  => $this->nama,
-                    'email' => $this->email
-                ]);
-            }
-        }
+        $employee->user->update([
+            'email' => $this->email
+        ]);
 
         //flash message
         session()->flash('message', 'Data ' . $this->nama . ' Berhasil Diupdate.');
@@ -64,6 +64,7 @@ class Update extends Component
 
     public function render()
     {
+        // dd('masuk update');
         return view('livewire.employee.update')
             ->layout('layouts.myview', [
                 'title'     => 'Employee',

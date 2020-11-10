@@ -57,16 +57,10 @@
                 <section class="content">
                     <!-- flash message -->
                     <div class="container-fluid">
-                        @if (session()->has('message'))
-                        <div class="alert alert-success">
-                            {{ session('message') }}
-                        </div>
-                        @endif
-
+                        <x-success-msg />
                         {{ $slot }}
                     </div>
-                </section>
-                <!-- /.content -->
+                </section> <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
 

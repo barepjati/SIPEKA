@@ -1,20 +1,19 @@
 <?php
 
-namespace App\View\Components\Button;
+namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Button extends Component
+class errorMsg extends Component
 {
-    public $color;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($color)
+    public function __construct()
     {
-        $this->color = $color;
+        //
     }
 
     /**
@@ -24,6 +23,6 @@ class Button extends Component
      */
     public function render()
     {
-        return view('components.button.button');
+        return view('components.error-msg');
     }
 }
