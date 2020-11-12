@@ -19,6 +19,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
         'password',
     ];
 
@@ -28,6 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
+        'role_id',
         'password',
         'remember_token',
     ];
@@ -44,5 +46,15 @@ class User extends Authenticatable
     public function employee()
     {
         return $this->hasOne('App\Models\Employee');
+    }
+
+    public function manager()
+    {
+        return $this->hasOne('App\Models\Manager');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo('App\Models\Role');
     }
 }

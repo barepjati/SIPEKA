@@ -5,17 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Manager extends Model
+class Role extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'nama',
-        'user_id'
-    ];
+    protected $fillable = ['nama'];
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->hasOne('App\Models\User');
     }
 }

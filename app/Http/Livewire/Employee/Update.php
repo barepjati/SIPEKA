@@ -11,9 +11,7 @@ class Update extends Component
     /**
      * define public variable
      */
-    public $empId;
-    public $nama;
-    public $email;
+    public $empId, $nama, $email, $username;
 
     /**
      * mount or construct function
@@ -26,6 +24,7 @@ class Update extends Component
             $this->empId    = $employee->id;
             $this->nama     = $employee->nama;
             $this->email    = $employee->user->email;
+            $this->username = $employee->user->username;
         }
     }
 
@@ -35,19 +34,20 @@ class Update extends Component
     public function update()
     {
         $this->validate([
-            'nama'  => 'required|min:6',
-            'email' => 'required|email',
+            'nama'      => 'required|min:6',
+            'username'  => 'required|min:6',
+            'email'     => 'required|email',
         ]);
 
         $employee = Employee::findOrFail($this->empId);
-        // dd($employee->user);
 
         $employee->update([
             'nama'  => $this->nama,
         ]);
 
         $employee->user->update([
-            'email' => $this->email
+            'email' => $this->email,
+            'username' => $this->username
         ]);
 
         //flash message
