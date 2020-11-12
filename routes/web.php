@@ -5,6 +5,8 @@ use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\Employee\Index as EmployeeIndex;
 use App\Http\Livewire\Employee\Create as EmployeeCreate;
 use App\Http\Livewire\Employee\Update as EmployeeUpdate;
+use App\Http\Livewire\Profile\Index as ProfileIndex;
+use App\Http\Livewire\Profile\Update as ProfileUpdate;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,21 +19,19 @@ use App\Http\Livewire\Employee\Update as EmployeeUpdate;
 |
 */
 
-// Route::get('/', function () {
-//     return view('layouts.app');
-// });
-
 Auth::routes();
 
-// Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', Dashboard::class)->name('dashboard');
-    // Route::get('/kriteria', Kriteria::class)->name('kriteria');
-    // Route::get('/alternatif', Alternatif::class)->name('alternatif');
-    // Route::get('/post', Post::class)->name('post');
+// For Manager
+Route::group(['prefix' => 'manager', 'middleware' => ['auth', 'role:manager']], function () {
+    Route::get('/', Dashboard::class)->name('manager.dashboard');
     Route::get('/employee', EmployeeIndex::class)->name('employee.index');
     Route::get('/employee/edit/{id}', EmployeeUpdate::class)->name('employee.edit');
     Route::get('/employee/create', EmployeeCreate::class)->name('employee.create');
 });
 
-// Route::get('/post', ShowPosts::class);
+// For Employee
+Route::group(['prefix' => 'employee', 'middleware' => ['auth', 'role:employee']], function () {
+    Route::get('/', Dashboard::class)->name('employee.dashboard');
+    Route::get('/profile', ProfileIndex::class)->name('employee.profil.index');
+    Route::get('/profile/edit', ProfileUpdate::class)->name('employee.profil.edit');
+});
