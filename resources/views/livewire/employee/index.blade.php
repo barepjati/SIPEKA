@@ -33,12 +33,5 @@
         </tr>
         @endforeach
     </tbody>
-    <tfoot>
-        <tr>
-            <th>No</th>
-            <th>Nama</th>
-            <th>Action</th>
-        </tr>
-    </tfoot>
 </x-table>
 {{-- </div> --}}
