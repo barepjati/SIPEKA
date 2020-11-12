@@ -17,6 +17,9 @@ class isManager
      */
     public function handle(Request $request, Closure $next,  ...$role)
     {
+        // if (!Auth::check())
+        //     return redirect()->guest(route('login'));
+
         if (in_array($request->user()->role->nama, $role)) {
             return $next($request);
         } elseif (in_array($request->user()->role->nama, $role)) {

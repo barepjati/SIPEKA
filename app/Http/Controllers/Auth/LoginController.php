@@ -33,6 +33,7 @@ class LoginController extends Controller
             'manager'   => 'manager',
             'employee'  => 'employee',
         ];
+
         return $this->redirectTo = route($for[auth()->user()->role->nama] . ".dashboard");
     }
 

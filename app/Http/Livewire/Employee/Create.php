@@ -29,19 +29,18 @@ class Create extends Component
     {
         $this->validate();
 
-        // Execution doesn't reach here if validation fails.
+        // dd($this->nama);
 
         $user =  User::create([
             'email' => $this->email,
-            'password' => Hash::make('12345678')
+            'password' => Hash::make('12345678'),
+            'username' => $this->username,
+            'role_id' => 2
         ]);
-
-        // dd($user->id);
 
         Employee::create([
             'nama' => $this->nama,
             'user_id' => $user->id,
-            'username' => $this->username
         ]);
 
         session()->flash('message', 'Data ' . $this->nama . ' Berhasil Ditambah.');
