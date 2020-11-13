@@ -23,6 +23,15 @@
                         class="nav-link {{ $active == 'employee.index' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
+                            Menu Restoran
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('employee.index') }}"
+                        class="nav-link {{ $active == 'employee.index' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
                             Data Karyawan
                         </p>
                     </a>

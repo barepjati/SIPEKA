@@ -20,7 +20,7 @@ use App\Http\Livewire\Profile\Update as ProfileUpdate;
 */
 
 Route::get('/', function () {
-    return view('layouts.app');
+    return view('layouts.landing');
 });
 
 //Route sementara
