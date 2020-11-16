@@ -14,6 +14,10 @@
             <x-slot name="label">Nama</x-slot>
         </x-input.input>
 
+        <x-input.input wire:model="password" type="password">
+            <x-slot name="label">Password</x-slot>
+        </x-input.input>
+
         {{-- {{var_dump($errors)}} --}}
 
         <x-button.button wire:click="showIndex" color="danger">Kembali</x-button.button>

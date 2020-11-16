@@ -14,9 +14,7 @@
             <x-slot name="label">nama</x-slot>
         </x-input.input>
 
-        <x-button.button wire:click="showIndex" color="danger">Kembali</x-button.button>
-        <x-button.button type="submit" color="primary" class="float-right">Update Data
-        </x-button.button>
+        <x-button.button type="submit" color="primary" class="float-right">Update Data</x-button.button>
     </form>
-
+    <x-button.button wire:click="showIndex" color="danger">Kembali</x-button.button>
 </x-form>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Employee;
 
-use App\Models\Employee;
+use App\Models\Karyawan;
 use App\Models\User;
 use Livewire\Component;
 
@@ -12,13 +12,13 @@ class Index extends Component
     public function render()
     {
         return view('livewire.employee.index',  [
-            'data' => Employee::all()
-        ])
-            ->layout('layouts.myview', [
-                'title'     => 'Employee',
-                'subtitle'  => '',
-                'active'    => 'employee.index'
-            ]);
+            'data' => Karyawan::all()
+        ]);
+        // ->layout('layouts.myview', [
+        //     'title'     => 'Employee',
+        //     'subtitle'  => '',
+        //     'active'    => 'employee.index'
+        // ]);
     }
 
     /**
@@ -26,7 +26,7 @@ class Index extends Component
      */
     public function create()
     {
-        return redirect()->route('employee.create');
+        return redirect()->route('karyawan.create');
     }
 
     /**
@@ -34,7 +34,7 @@ class Index extends Component
      */
     public function edit($id)
     {
-        return redirect()->route('employee.edit', $id);
+        return redirect()->route('karyawan.edit', $id);
     }
 
     /**
@@ -42,7 +42,7 @@ class Index extends Component
      */
     public function destroy($id)
     {
-        $employee = Employee::find($id);
+        $employee = Karyawan::find($id);
         $user = User::find($employee->user_id);
         // dd($user);
 
@@ -53,6 +53,6 @@ class Index extends Component
         session()->flash('message', 'Data Berhasil Dihapus.');
 
         //redirect
-        return redirect()->route('employee.index');
+        return redirect()->route('karyawan.index');
     }
 }

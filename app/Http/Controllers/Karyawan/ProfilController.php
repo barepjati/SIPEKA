@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Karyawan;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ExampleController extends Controller
+class ProfilController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,11 @@ class ExampleController extends Controller
      */
     public function index()
     {
-        //
+        return view('karyawan.profile.index', [
+            'title'         => 'profil',
+            'subtitle'      => '',
+            'active'        => 'profil.index',
+        ]);
     }
 
     /**

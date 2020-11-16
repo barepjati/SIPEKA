@@ -12,26 +12,22 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Styles -->
-        {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
         <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
         <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 
         @livewireStyles
 
         <!-- Scripts -->
         @livewireScripts
-        <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
-            data-turbolinks-eval="false"></script>
+        {{-- <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
+            data-turbolinks-eval="false"></script> --}}
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
-        <script src="{{ mix('js/app.js') }}"></script>
+        {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
 
         @stack('css')
         @stack('style')
 
-        <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
         <script src="{{ asset('plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
 
     </head>
@@ -42,7 +38,7 @@
             <!-- Navbar -->
             <x-navbar />
             <!-- /.navbar -->
-            {{-- {{dd($active)}} --}}
+
             <!-- Main Sidebar Container -->
             <x-leftbar :active="$active" />
 
@@ -58,7 +54,8 @@
                     <!-- flash message -->
                     <div class="container-fluid">
                         <x-success-msg />
-                        {{ $slot }}
+                        {{-- {{ $slot }} --}}
+                        @yield('content')
                     </div>
                 </section> <!-- /.content -->
             </div>
@@ -74,18 +71,13 @@
         <!-- ./wrapper -->
 
         <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-        {{-- <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
+        <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
         <script src="{{ asset('dist/js/demo.js') }}"></script>
         {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
 
         @stack('js')
         @stack('script')
-
-        <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
 
     </body>
 

@@ -5,17 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+class Menu extends Model
 {
     use HasFactory;
 
+    protected $table = 'menu';
+
     protected $fillable = [
         'nama',
-        'user_id'
+        'deskripsi',
+        'harga',
+        'kategori_id'
     ];
 
-    public function user()
+    public function kategori()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\Kategori');
     }
 }

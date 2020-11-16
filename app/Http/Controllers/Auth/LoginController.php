@@ -30,8 +30,8 @@ class LoginController extends Controller
     public function redirectTo()
     {
         $for = [
-            'manager'   => 'manager',
-            'employee'  => 'employee',
+            'manajer'   => 'manajer',
+            'karyawan'  => 'karyawan',
         ];
 
         return $this->redirectTo = route($for[auth()->user()->role->nama] . ".dashboard");

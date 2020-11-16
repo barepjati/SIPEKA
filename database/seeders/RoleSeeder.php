@@ -14,18 +14,15 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $role = [
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        \DB::table('roles')->truncate();
+        \DB::table('roles')->insert([
             [
-                'nama'  => 'manager'
+                'nama'      => 'manajer',
             ],
-
             [
-                'nama'  => 'employee'
+                'nama'      => 'karyawan',
             ]
-        ];
-
-        foreach ($role as $r) {
-            Role::create($r);
-        }
+        ]);
     }
 }

@@ -100,7 +100,23 @@
 									<input class="input" type="email" name="email" placeholder="Your best email&hellip;">
 								</div> -->
                                     <div class="control">
-                                        <a class="button button-primary button-block" href="/login">Login</a>
+                                        @if (Route::has('login'))
+                                        <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                                            @auth
+                                            @if (Auth::user()->role->nama == 'manajer')
+                                            <a class="button button-primary button-block"
+                                                href="{{ route('manajer.dashboard') }}">Dashboard</a>
+                                            @else
+                                            <a class="button button-primary button-block"
+                                                href="{{ route('karyawan.dashboard') }}">Dashboard</a>
+                                            @endif
+                                            @else
+                                            <a class="button button-primary button-block"
+                                                href="{{ route('login') }}">Login</a>
+                                            @endif
+                                        </div>
+                                        @endif
+
                                     </div>
                                 </div>
                             </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Employee;
 
 use App\Models\Employee;
+use App\Models\Karyawan;
 use App\Models\User;
 use Livewire\Component;
 
@@ -18,7 +19,7 @@ class Update extends Component
      */
     public function mount($id)
     {
-        $employee = Employee::findOrFail($id);
+        $employee = Karyawan::findOrFail($id);
         // dd($employee->user->email);
         if ($employee) {
             $this->empId    = $employee->id;
@@ -39,7 +40,7 @@ class Update extends Component
             'email'     => 'required|email',
         ]);
 
-        $employee = Employee::findOrFail($this->empId);
+        $employee = Karyawan::findOrFail($this->empId);
 
         $employee->update([
             'nama'  => $this->nama,
@@ -54,12 +55,13 @@ class Update extends Component
         session()->flash('message', 'Data ' . $this->nama . ' Berhasil Diupdate.');
 
         //redirect
-        return redirect()->route('employee.index');
+        return redirect()->route('karyawan.index');
     }
 
     public function showIndex()
     {
-        return redirect()->route('employee.index');
+        session()->flash('message', 'Data ' . $this->nama . ' Batal Diupdate.');
+        return redirect()->route('karyawan.index');
     }
 
     public function render()

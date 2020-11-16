@@ -12,9 +12,11 @@ class Button extends Component
      *
      * @return void
      */
+    // , $link
     public function __construct($color)
     {
         $this->color = $color;
+        // $this->link = $link;
     }
 
     /**

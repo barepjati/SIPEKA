@@ -22,6 +22,7 @@
 
     <body class="hold-transition register-page">
         <div class="register-box">
+            <x-success-msg />
             @yield('content')
         </div>
         <!-- /.register-box -->

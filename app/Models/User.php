@@ -44,14 +44,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function employee()
+    public function karyawan()
     {
-        return $this->hasOne('App\Models\Employee');
+        return $this->hasOne('App\Models\Karyawan');
     }
 
-    public function manager()
+    public function manajer()
     {
-        return $this->hasOne('App\Models\Manager');
+        return $this->hasOne('App\Models\Manajer');
     }
 
     public function role()
