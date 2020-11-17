@@ -93,14 +93,14 @@
                     </a>
                 </li>
                 <li class="nav-header"></li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('menu.index') }}" class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
-                        <x-icon class="nav-icon fas fa-" type="bars" />
-                        <p>
-                            Menu Restoran
-                        </p>
-                    </a>
-                </li>
+                <x-icon class="nav-icon fas fa-" type="bars" />
+                <p>
+                    Menu Restoran
+                </p>
+                </a>
+                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('pemesanan.index') }}"
                         class="nav-link {{ $active == 'pemesanan.index' ? 'active' : '' }}">

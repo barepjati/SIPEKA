@@ -21,6 +21,17 @@ class Create extends Component
         'password' => 'required|min:8',
     ];
 
+    protected $messages = [
+        'nama.required' => 'Field Nama tidak boleh kosong.',
+        'nama.min' => 'Field Nama Minimal 6 karakter.',
+        'email.required' => 'Field Email tidak boleh kosong.',
+        'email.email' => 'Email tidak valid.',
+        'username.required' => 'Field Username tidak boleh kosong.',
+        'username.min' => 'Field Username Minimal 6 karakter.',
+        'password.required' => 'Field Password tidak boleh kosong.',
+        'password.min' => 'Field Password Minimal 8 karakter.'
+    ];
+
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
@@ -58,11 +69,6 @@ class Create extends Component
     public function render()
     {
         // dd('masuk create');
-        return view('livewire.employee.create')
-            ->layout('layouts.myview', [
-                'title'     => 'Employee',
-                'subtitle'  => 'Create',
-                'active'    => 'employee.index'
-            ]);
+        return view('livewire.employee.create');
     }
 }

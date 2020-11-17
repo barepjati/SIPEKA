@@ -30,15 +30,34 @@ class Update extends Component
     }
 
     /**
+     * rules
+     */
+    protected $rules = [
+        'nama' => 'required|min:6',
+        'email' => 'required|email',
+        'username' => 'required|min:6',
+    ];
+
+    protected $messages = [
+        'nama.required' => 'Field Nama tidak boleh kosong.',
+        'nama.min' => 'Field Nama Minimal 6 karakter.',
+        'email.required' => 'Field Email tidak boleh kosong.',
+        'email.email' => 'Email tidak valid.',
+        'username.required' => 'Field Username tidak boleh kosong.',
+        'username.min' => 'Field Username Minimal 6 karakter.',
+    ];
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+    /**
      * update function
      */
     public function update()
     {
-        $this->validate([
-            'nama'      => 'required|min:6',
-            'username'  => 'required|min:6',
-            'email'     => 'required|email',
-        ]);
+        $this->validate();
 
         $employee = Karyawan::findOrFail($this->empId);
 
@@ -66,12 +85,6 @@ class Update extends Component
 
     public function render()
     {
-        // dd('masuk update');
-        return view('livewire.employee.update')
-            ->layout('layouts.myview', [
-                'title'     => 'Employee',
-                'subtitle'  => '',
-                'active'    => 'employee.index'
-            ]);
+        return view('livewire.employee.update');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Order;
 
-use App\Models\Transaksi;
+use App\Models\Pemesanan;
 use Livewire\Component;
 
 class Index extends Component
@@ -36,7 +36,7 @@ class Index extends Component
      */
     public function destroy($id)
     {
-        $menu = Transaksi::find($id);
+        $menu = Pemesanan::find($id);
         $menu->delete();
 
         //flash message
@@ -49,7 +49,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.order.index', [
-            'transaksi' => Transaksi::where('user_id', \Auth::user()->id)->get()
+            'transaksi' => Pemesanan::where('user_id', \Auth::user()->id)->get()
         ]);
     }
 }
