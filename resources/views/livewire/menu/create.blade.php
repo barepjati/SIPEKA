@@ -15,7 +15,7 @@
             <x-slot name="label">Nama</x-slot>
         </x-input.input>
 
-        <x-input.input wire:model="harga" type="number">
+        <x-input.input wire:model="harga">
             <x-slot name="label">Harga</x-slot>
         </x-input.input>
 
