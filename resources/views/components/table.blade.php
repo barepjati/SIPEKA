@@ -26,12 +26,12 @@
     document.addEventListener('livewire:load', function () {
         @this.on('destroy', id => {
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: 'Apakah anda yakin ingin menghapus ?',
+                text: "Data yang terhapus tidak dapat dikembalikan",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
+                confirmButtonText: 'Yakin, Hapus!',
+                cancelButtonText: 'Batal!',
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
@@ -43,7 +43,7 @@
                     )
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     Swal.fire(
-                        'Cancelled',
+                        'Dibatalkan',
                         'Data Tidak dihapus',
                         'error'
                     )

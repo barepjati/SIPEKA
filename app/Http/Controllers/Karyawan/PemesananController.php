@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Karyawan;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class MenuController extends Controller
+class PemesananController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,10 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return view('karyawan.menu.index', [
-            'title'     => 'menu',
+        return view('karyawan.pemesanan.index', [
+            'title'     => 'pemesanan',
             'subtitle'  => '',
-            'active'    => 'menu.index',
-            // 'menu'      => $menu
+            'active'    => 'pemesanan.index'
         ]);
     }
 

@@ -75,13 +75,13 @@ class Update extends Component
         session()->flash('message', 'Data ' . $this->nama . ' Berhasil Diupdate.');
 
         //redirect
-        return redirect()->route('menu.index');
+        return redirect()->route('menuResto.index');
     }
 
     public function showIndex()
     {
         // session()->flash('message', 'Data ' . $this->nama . ' Batal Diupdate.');
-        return redirect()->route('menu.index');
+        return redirect()->route('menuResto.index');
     }
 
     public function render()

@@ -36,7 +36,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('menu.index') }}"
+                            <a href="{{ route('menuResto.index') }}"
                                 class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
                                 <x-icon class="nav-icon fas fa-" type="circle" />
                                 <p>Menu</p>
@@ -44,17 +44,9 @@
                         </li>
                     </ul>
                 </li>
-                {{-- <li class="nav-item">
-                    <a href="{{ route('menu.index') }}" class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
-                <x-icon class="nav-icon fas fa-" type="bars" />
-                <p>
-                    Menu Restoran
-                </p>
-                </a>
-                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('karyawan.index') }}"
-                        class="nav-link {{ $active == 'employee.index' ? 'active' : '' }}">
+                        class="nav-link {{ $active == 'karyawan.index' ? 'active' : '' }}">
                         <x-icon class="nav-icon fas fa-" type="user" />
                         <p>
                             Data Karyawan
@@ -97,6 +89,24 @@
                         <i class="nav-icon fas fa-home"></i>
                         <p>
                             Dashboard
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header"></li>
+                <li class="nav-item">
+                    <a href="{{ route('menu.index') }}" class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
+                        <x-icon class="nav-icon fas fa-" type="bars" />
+                        <p>
+                            Menu Restoran
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('pemesanan.index') }}"
+                        class="nav-link {{ $active == 'pemesanan.index' ? 'active' : '' }}">
+                        <x-icon class="nav-icon fas fa-" type="bars" />
+                        <p>
+                            Menu Restoran
                         </p>
                     </a>
                 </li>

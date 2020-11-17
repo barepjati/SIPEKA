@@ -11,7 +11,10 @@
 |
 */
 
-use App\Http\Controllers\Karyawan\ProfilController;
+use App\Http\Controllers\Karyawan\MenuController as KaryawanMenuController;
+use App\Http\Controllers\Karyawan\ProfilController as KaryawanProfilController;
+use App\Http\Controllers\Karyawan\PemesananController as KaryawanPemesananController;
+
 use App\Http\Controllers\Manager\DashboardController;
 use App\Http\Controllers\Manager\KaryawanController;
 use App\Http\Controllers\Manager\MenuController;
@@ -40,12 +43,10 @@ Route::group(['middleware' => ['auth']], function () {
         //Laporan Pemesanan
 
         //Menu
-        Route::resource('menu', MenuController::class);
+        Route::resource('menuResto', MenuController::class);
         // Route::get('/menu', MenuIndex::class)->name('menu.index');
 
-        //Kategori
-        // Route::resource('kategori', 'UserController');
-        // Route::get('/category', CategoryIndex::class)->name('category.index');
+
     });
 
     // For Employee
@@ -54,14 +55,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', DashboardController::class)->name('karyawan.dashboard');
 
         //Profil Update pass Only
-        Route::resource('profil', ProfilController::class);
-        // Route::get('/profil', ProfilController::class)->name('karyawan.profil');
-        // Route::get('/profile', ProfileIndex::class)->name('employee.profil.index');
-        // Route::get('/profile/edit', ProfileUpdate::class)->name('employee.profil.edit');
+        Route::resource('profil', KaryawanProfilController::class);
 
         //Menu
+        Route::resource('menu', KaryawanMenuController::class);
 
-        //Detail Pemesanan
+        //Pemesanan
+        Route::resource('pemesanan', KaryawanPemesananController::class);
 
         //Detail Transaksi
     });

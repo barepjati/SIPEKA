@@ -1,5 +1,6 @@
 @extends('layouts.myview')
 
 @section('content')
-@livewire('menu.index')
+{{-- {{dd($menu)}}; --}}
+@livewire('order.index')
 @endsection

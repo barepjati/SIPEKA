@@ -1,7 +1,7 @@
 <div wire:ignore class="form-group">
     <x-input.label for="{{$label}}">{{ucfirst($label)}}</x-input.label>
     <select {{ $attributes->merge(['class' => 'form-control select2', 'data-placeholder' => 'Pilih Data']) }}>
-        {{-- <option></option> --}}
+        <option></option>
         {{$opt}}
     </select>
 </div>

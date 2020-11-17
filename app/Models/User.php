@@ -58,4 +58,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Role');
     }
+
+    public function transaksi()
+    {
+        return $this->hasOne('App\Models\Transaksi');
+    }
 }

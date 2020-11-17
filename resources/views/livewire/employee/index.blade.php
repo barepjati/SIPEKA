@@ -26,7 +26,7 @@
                 </x-button.button>
                 <x-button.button wire:click="$emit('destroy', {{$k->id}})" color="danger" class="btn-sm">
                     <x-icon type="trash" />
-                    Delete
+                    Hapus
                 </x-button.button>
             </td>
             <?php $no++ ?>

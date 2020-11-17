@@ -19,7 +19,7 @@ class Index extends Component
      */
     public function create()
     {
-        return redirect()->route('menu.create');
+        return redirect()->route('menuResto.create');
     }
 
     /**
@@ -27,15 +27,35 @@ class Index extends Component
      */
     public function edit($id)
     {
-        return redirect()->route('menu.edit', $id);
+        return redirect()->route('menuResto.edit', $id);
     }
 
     public function editKategori($id)
     {
-        return redirect()->route('menu.edit', [
+        return redirect()->route('menuResto.edit', [
             'id' => $id,
             'editKategori' => true
         ]);
+    }
+
+    public function tersedia(Menu $menu)
+    {
+        // $menu = Menu::findOrFail($id);
+        // dd($menu->status);
+        $menu->update(['status' => 'tersedia']);
+        // dd($menu->status);
+        session()->flash('message', 'Status ' . $menu->nama . ' Diupdate ke ' . $menu->status);
+        return redirect()->route('menuResto.index');
+    }
+
+    public function habis(Menu $menu)
+    {
+        // $menu = Menu::findOrFail($id);
+        // dd($menu->status);
+        $menu->update(['status' => 'habis']);
+        // dd($menu->status);
+        session()->flash('message', 'Status ' . $menu->nama . ' Diupdate ke ' . $menu->status);
+        return redirect()->route('menuResto.index');
     }
 
     /**
@@ -50,6 +70,6 @@ class Index extends Component
         session()->flash('message', 'Data Berhasil Dihapus.');
 
         //redirect
-        return redirect()->route('karyawan.index');
+        return redirect()->route('menuResto.index');
     }
 }

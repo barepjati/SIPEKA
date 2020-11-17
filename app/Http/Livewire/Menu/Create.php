@@ -46,12 +46,12 @@ class Create extends Component
 
         session()->flash('message', 'Data ' . $this->nama . ' Berhasil Ditambah.');
 
-        return redirect()->route('menu.index');
+        return redirect()->route('menuResto.index');
     }
 
     public function showIndex()
     {
-        return redirect()->route('menu.index');
+        return redirect()->route('menuResto.index');
     }
 
     public function render()
