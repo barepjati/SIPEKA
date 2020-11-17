@@ -40,6 +40,16 @@ class Update extends Component
         'deskripsi' => 'required|min:15',
     ];
 
+    protected $messages = [
+        'nama.required' => 'Field Nama tidak boleh kosong.',
+        'nama.unique' => 'Nama Telah digunakan pada Menu yang lain.',
+        'harga.required' => 'Field Harga tidak boleh kosong.',
+        'harga.numeric' => 'Field Harga hanya format angka.',
+        'harga.min' => 'Minimal Harga 0 atau gratis.',
+        'deskripsi.required' => 'Field Deskripsi tidak boleh kosong.',
+        'deskripsi.min' => 'Field Deskripsi Minimal 15 karakter.'
+    ];
+
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
