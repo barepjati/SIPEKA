@@ -130,8 +130,8 @@
                                     <td class="emptyrow"></td>
                                     <td class="emptyrow"></td>
                                     <td class="text-center"><strong>Kembali</strong></td>
-                                    <td class="text-right">Rp. {{ isset($kembali) ? number_format($kembali) : '0' }}
-                                    </td>
+                                    <td class="text-right">Rp. 0</td>
+                                    {{-- {{ isset($kembali) ? number_format($kembali) : '0' }} --}}
                                     <td class="emptyrow"></td>
                                 </tr>
                             </tbody>

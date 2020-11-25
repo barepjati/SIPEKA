@@ -12,7 +12,8 @@ class Cart extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart, $kembali = 0;
+    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart;
+    // , $kembali = 0
 
     protected $rules = [
         'nama' => 'required|min:2',
