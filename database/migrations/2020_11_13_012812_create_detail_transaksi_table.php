@@ -17,6 +17,7 @@ class CreateDetailTransaksiTable extends Migration
             $table->id();
             $table->foreignId('transaksi_id')->constrained('transaksi')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('menu_id')->constrained('menu')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('kuantitas');
             $table->timestamps();
         });
     }

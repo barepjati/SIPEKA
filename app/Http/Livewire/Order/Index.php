@@ -12,7 +12,7 @@ class Index extends Component
      */
     public function create()
     {
-        return redirect()->route('menu.create');
+        return redirect()->route('cart.create');
     }
 
     /**
@@ -23,7 +23,7 @@ class Index extends Component
         return redirect()->route('menu.edit', $id);
     }
 
-    public function editKategori($id)
+    public function detail($id)
     {
         return redirect()->route('menu.edit', [
             'id' => $id,
@@ -31,25 +31,10 @@ class Index extends Component
         ]);
     }
 
-    /**
-     * destroy function
-     */
-    public function destroy($id)
-    {
-        $menu = Pemesanan::find($id);
-        $menu->delete();
-
-        //flash message
-        session()->flash('message', 'Data Berhasil Dihapus.');
-
-        //redirect
-        return redirect()->route('karyawan.index');
-    }
-
     public function render()
     {
         return view('livewire.order.index', [
-            'transaksi' => Pemesanan::where('user_id', \Auth::user()->id)->get()
+            'transaksi' => Pemesanan::where('user_id', \Auth::user()->id)->latest()->get()
         ]);
     }
 }

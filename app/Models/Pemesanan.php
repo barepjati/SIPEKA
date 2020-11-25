@@ -11,14 +11,21 @@ class Pemesanan extends Model
 
     protected $table = 'transaksi';
 
-    protected $fillabel = [
+    protected $fillable = [
         'no_transaksi',
+        'nama',
         'status',
+        'total',
         'user_id'
     ];
 
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function cart()
+    {
+        return $this->hasOne('App\Models\DetailPemesanan');
     }
 }

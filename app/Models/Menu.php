@@ -23,4 +23,9 @@ class Menu extends Model
     {
         return $this->belongsTo('App\Models\Kategori');
     }
+
+    public function cart()
+    {
+        return $this->hasMany('App\Models\DetailPemesanan');
+    }
 }

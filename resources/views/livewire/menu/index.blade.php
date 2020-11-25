@@ -1,13 +1,13 @@
 {{-- <div class="row"> --}}
 <x-table title="Data Menu Restoran" id="dt">
-    @if (Auth::user()->role->nama == 'manajer')
     <x-slot name="button">
+        @if (Auth::user()->role->nama == 'manajer')
         <x-button.button wire:click="create" color="primary" class="float-right mb-2">
             <x-icon type="plus" />
             Tambah Data
         </x-button.button>
+        @endif
     </x-slot>
-    @endif
     <thead>
         <tr>
             <th>No</th>

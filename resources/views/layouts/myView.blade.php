@@ -14,16 +14,17 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
         <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
         <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 
         @livewireStyles
 
         <!-- Scripts -->
         @livewireScripts
-        {{-- <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
-            data-turbolinks-eval="false"></script> --}}
+        <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
+            data-turbolinks-eval="false"></script>
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
-        {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
+        <script src="{{ mix('js/app.js') }}"></script>
 
         @stack('css')
         @stack('style')
@@ -52,11 +53,12 @@
                 <!-- Main content -->
                 <section class="content">
                     <!-- flash message -->
-                    <div class="container-fluid">
+                    <x-container>
                         <x-success-msg />
-                        {{-- {{ $slot }} --}}
+                        <x-error-msg />
+                        {{ isset($slot) ? $slot : null }}
                         @yield('content')
-                    </div>
+                    </x-container>
                 </section> <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
@@ -73,6 +75,7 @@
         <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+        <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
         <script src="{{ asset('dist/js/demo.js') }}"></script>
         {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
 

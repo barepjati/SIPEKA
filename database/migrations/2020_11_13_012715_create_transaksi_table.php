@@ -17,6 +17,7 @@ class CreateTransaksiTable extends Migration
             $table->id();
             $table->uuid('no_transaksi')->nullable();
             $table->string('status')->default('belum dibayar')->comment('belum dibayar, sudah dibayar, batal, selesai');
+            $table->string('nama');
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
