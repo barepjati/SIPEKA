@@ -123,14 +123,27 @@
                                     <td class="emptyrow"></td>
                                     <td class="emptyrow"></td>
                                     <td class="text-center"><strong>Uang</strong></td>
-                                    <td class="text-right"><input type="number" min="0"></td>
+
+                                    <td class="text-right">
+                                        <form wire:submit.prevent="hitung" method="post">
+                                            <div class="form-group">
+                                                <input wire:model="uang" type="text" min="0">
+                                                @error('uang')
+                                                <span class="text-danger">{{$message}}</span>
+                                                @enderror
+                                            </div>
+                                        </form>
+                                    </td>
                                     <td class="emptyrow"></td>
                                 </tr>
                                 <tr>
                                     <td class="emptyrow"></td>
                                     <td class="emptyrow"></td>
                                     <td class="text-center"><strong>Kembali</strong></td>
-                                    <td class="text-right">Rp. 0</td>
+                                    <td class="text-right">
+                                        <input wire:model="kembali" type="text" placeholder="0" readonly
+                                            value="{{number_format($kembali)}}">
+                                    </td>
                                     {{-- {{ isset($kembali) ? number_format($kembali) : '0' }} --}}
                                     <td class="emptyrow"></td>
                                 </tr>
@@ -190,10 +203,34 @@
     window.livewire.on('alert', param => {
         toastr[param['type']](param['message'],param['type']);
     })
+
     @if(count($errors) > 0)
         @foreach($errors->all() as $error)
             toastr.error("{{ $error }}");
         @endforeach
     @endif
+
+    // payment.oninput = () => {
+    //     const paymentAmount = document.getElementById("payment").value
+    //     const totalAmount = document.getElementById("total").value
+
+    //     const kembalian = paymentAmount - totalAmount
+
+    //     document.getElementById("kembalian").innerHTML = 'Rp. ${Rupiah(kembalian)}'
+    // }
+    // const rupiah = (angka) => {
+    //     const numberString = angka.toString()
+    //     const split = numberString.split(',')
+    //     const sisa = split[0].length % 3
+    //     let rupiah = split[0].substr(0, sisa)
+    //     const ribuan = split[0].substr(sisa).match(/\d{1,3}/gi)
+
+    //     if (ribuan) {
+    //         const separator = sisa ? '.' : ''
+    //         rupiah += separator + ribuan.join('.')
+    //     }
+
+    //     return split[1] != undefined ? rupiah + ',' + split[1] + rupiah
+    // }
 </script>
 @endpush

@@ -7,12 +7,13 @@ use App\Models\Menu;
 use App\Models\Pemesanan;
 use Livewire\Component;
 use Livewire\WithPagination;
+use tidy;
 
 class Cart extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart;
+    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart, $uang, $kembali;
     // , $kembali = 0
 
     protected $rules = [
@@ -117,6 +118,26 @@ class Cart extends Component
         $this->total = $this->total - $target->harga;
         $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
         $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $target->menu->nama . ' Berhasil dihapus dari daftar pemesanan.']);
+    }
+
+    public function hitung()
+    {
+        $validatedData = $this->validate(
+            ['uang' => 'required|numeric'],
+            [
+                'uang.required' => 'Field :attribute tidak boleh kosong.',
+                'uang.numeric' => 'Field :attribute hanya angka.',
+            ],
+            ['uang' => 'Input Uang']
+        );
+
+        $this->kembali = $this->uang - $this->total;
+
+        if ($this->kembali <  0) {
+            $this->kembali = 0;
+            $this->reset('uang');
+            $this->emit('alert', ['type'  => 'error', 'message' =>  'Uang kurang dari ' . $this->total]);
+        }
     }
 
     public function render()
