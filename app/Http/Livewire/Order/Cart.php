@@ -14,7 +14,6 @@ class Cart extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart, $uang, $kembali;
-    // , $kembali = 0
 
     protected $rules = [
         'nama' => 'required|min:2',
@@ -33,22 +32,17 @@ class Cart extends Component
     public function pemesanan()
     {
         $this->validate();
-
         $pemesanan = Pemesanan::create([
             'nama' => $this->nama,
             'no_transaksi' => (string) \Str::uuid(),
             'total' => 0,
             'user_id' => \Auth::user()->id
         ]);
-
-        // $pemesananId, $no_transaksi, $status, $nama, $total, $cart
-
         $this->pemesananId = $pemesanan->id;
         $this->no_transaksi = $pemesanan->no_transaksi;
         $this->status = $pemesanan->status;
         $this->namaPemesan = $pemesanan->nama;
         $this->total = $pemesanan->total;
-
         $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $this->nama . ' Berhasil Ditambah.']);
     }
 
@@ -58,7 +52,6 @@ class Cart extends Component
         $ada = DetailPemesanan::where('transaksi_id', $this->pemesananId)
             ->where('menu_id', $id)
             ->exists();
-        // dd($this->pemesanId);
         if ($this->pemesananId) {
             if ($ada) {
                 $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
@@ -84,12 +77,10 @@ class Cart extends Component
         $target = DetailPemesanan::where('transaksi_id', $this->pemesananId)
             ->where('id', $id)
             ->first();
-
         $target->update([
             'kuantitas' => $target->kuantitas + 1,
             'harga'     => $target->harga + $target->menu->harga
         ]);
-
         $this->total = $this->total + $target->menu->harga;
         $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
     }
@@ -99,14 +90,42 @@ class Cart extends Component
         $target = DetailPemesanan::where('transaksi_id', $this->pemesananId)
             ->where('id', $id)
             ->first();
-
         $target->update([
             'kuantitas' => $target->kuantitas - 1,
             'harga'     => $target->harga - $target->menu->harga
         ]);
-
         $this->total = $this->total - $target->menu->harga;
         $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
+    }
+
+    public function hitung()
+    {
+        $validatedData = $this->validate(
+            ['uang' => 'required|numeric'],
+            [
+                'uang.required' => 'Field :attribute tidak boleh kosong.',
+                'uang.numeric' => 'Field :attribute hanya angka.',
+            ],
+            ['uang' => 'Input Uang']
+        );
+        $this->kembali = $this->uang - $this->total;
+        if ($this->kembali <  0) {
+            $this->kembali = 0;
+            $this->reset('uang');
+            $this->emit('alert', ['type'  => 'error', 'message' =>  'Uang kurang dari ' . $this->total]);
+        }
+        Pemesanan::where('id', $this->pemesananId)
+            ->update([
+                'total' => $this->total
+            ]);
+    }
+
+    public function batal()
+    {
+        $target = Pemesanan::findOrFail($this->pemesananId);
+        $target->delete();
+        session()->flash('message', 'Data Transaksi Dibatalkan.');
+        return redirect()->route('pemesanan.index');
     }
 
     public function destroy($id)
@@ -120,24 +139,12 @@ class Cart extends Component
         $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $target->menu->nama . ' Berhasil dihapus dari daftar pemesanan.']);
     }
 
-    public function hitung()
+    public function cetakPdf()
     {
-        $validatedData = $this->validate(
-            ['uang' => 'required|numeric'],
-            [
-                'uang.required' => 'Field :attribute tidak boleh kosong.',
-                'uang.numeric' => 'Field :attribute hanya angka.',
-            ],
-            ['uang' => 'Input Uang']
-        );
+        $pegawai = Pemesanan::all();
 
-        $this->kembali = $this->uang - $this->total;
-
-        if ($this->kembali <  0) {
-            $this->kembali = 0;
-            $this->reset('uang');
-            $this->emit('alert', ['type'  => 'error', 'message' =>  'Uang kurang dari ' . $this->total]);
-        }
+        $pdf = \PDF::loadview('pegawai_pdf', ['pegawai' => $pegawai]);
+        return $pdf->download('laporan-pegawai-pdf');
     }
 
     public function render()

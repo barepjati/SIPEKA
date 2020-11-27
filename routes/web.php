@@ -19,6 +19,8 @@ use App\Http\Controllers\Manager\DashboardController;
 use App\Http\Controllers\Manager\KaryawanController;
 use App\Http\Controllers\Manager\MenuController;
 use App\Http\Livewire\Order\Cart;
+use App\Http\Livewire\Order\Detail;
+use App\Http\Livewire\Order\Invoice;
 
 Route::get('/', function () {
     return view('layouts.landing');
@@ -64,6 +66,8 @@ Route::group(['middleware' => ['auth']], function () {
         //Pemesanan
         Route::resource('pemesanan', KaryawanPemesananController::class);
         Route::get('/cart', Cart::class)->name('cart.create');
+        Route::get('/cart/{id}', Detail::class)->name('cart.detail');
+        Route::get('/cart/invoice/{id}', Invoice::class)->name('invoice');
 
         //Detail Transaksi
     });

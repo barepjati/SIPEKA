@@ -15,20 +15,21 @@ class Index extends Component
         return redirect()->route('cart.create');
     }
 
-    /**
-     * update function
-     */
-    public function edit($id)
-    {
-        return redirect()->route('menu.edit', $id);
-    }
-
     public function detail($id)
     {
-        return redirect()->route('menu.edit', [
-            'id' => $id,
-            'editKategori' => true
-        ]);
+        return redirect()->route('cart.detail', $id);
+    }
+
+    public function destroy($id)
+    {
+        $pemesanan = Pemesanan::find($id);
+        $pemesanan->delete();
+
+        //flash message
+        session()->flash('message', 'Data Berhasil Dihapus.');
+
+        //redirect
+        return redirect()->route('pemesanan.index');
     }
 
     public function render()

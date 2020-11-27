@@ -21,8 +21,6 @@
     });
 </script>
 <script>
-    // Livewire.emit('destroy')
-
     document.addEventListener('livewire:load', function () {
         @this.on('destroy', id => {
             Swal.fire({
