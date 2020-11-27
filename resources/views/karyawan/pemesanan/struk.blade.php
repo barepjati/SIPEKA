@@ -62,7 +62,7 @@
                 border-style: dashed;
             }
 
-            a {
+            /* a {
                 text-decoration: none;
                 text-align: center;
                 padding: 10px;
@@ -70,14 +70,14 @@
                 border-radius: 5px;
                 color: white;
                 font-weight: bold;
-            }
+            } */
         </style>
         @livewireStyles
 
         <!-- Scripts -->
         @livewireScripts
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
-        <script src="{{ mix('js/app.js') }}"></script>
+        {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
     </head>
 
     <body>
@@ -88,13 +88,18 @@
             </x-div>
             <hr>
             {{$slot}}
+            <hr>
+            <center>
+                <a href="{{ route('pemesanan.index') }}">----Click Me-----</a>
+            </center>
+
         </x-div>
 
-        <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+        {{-- <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
         <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
-        <script src="{{ asset('dist/js/demo.js') }}"></script>
+        <script src="{{ asset('dist/js/demo.js') }}"></script> --}}
 
         @stack('js')
         @stack('script')
