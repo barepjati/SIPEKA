@@ -143,7 +143,6 @@ class Cart extends Component
     {
         if ($this->cart) {
             if ($this->uang) {
-                // dd('cie masuk', route('struk', ['id' => $this->pemesananId, 'uang' => $this->uang]), $this->uang);
                 Pemesanan::where('id', $this->pemesananId)->update([
                     'status'    => 'selesai'
                 ]);
@@ -157,24 +156,18 @@ class Cart extends Component
         } else {
             $this->emit('alert', ['type'  => 'error', 'message' =>  'Data Kosong.']);
         }
-
-        // $pegawai = Pemesanan::all();
-
-        // $pdf = \PDF::loadview('pegawai_pdf', ['pegawai' => $pegawai]);
-        // return $pdf->download('laporan-pegawai-pdf');
     }
 
     public function render()
     {
         return view('livewire.order.cart', [
-            'menu'  => Menu::where('status', 'tersedia')
-                ->where('nama', 'like', '%' . $this->cariMenu . '%')
+            'menu'  => Menu::where('nama', 'like', '%' . $this->cariMenu . '%')
                 ->orWhere('harga', 'like', '%' . $this->cariMenu . '%')
                 ->paginate(10),
         ])
             ->layout('layouts.myview', [
                 'title'     => 'pemesanan',
-                'subtitle'  => 'invoice',
+                'subtitle'  => 'tambah',
                 'active'    => 'pemesanan.index'
             ]);
     }

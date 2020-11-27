@@ -9,6 +9,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Nama</th>
                         <th scope="col">Harga</th>
+                        {{-- <th scope="col">Status</th> --}}
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
@@ -19,11 +20,19 @@
                         <th scope="row">{{$no}}</th>
                         <td>{{$m->nama}}</td>
                         <td>Rp. {{number_format($m->harga)}}</td>
+                        {{-- <td>{{$m->status}}</td> --}}
                         <td>
+                            @if ($m->status == 'habis')
+                            <x-button.button wire:click="tambahCart({{$m->id}})" color="primary"
+                                class="btn-sm float-right" disabled>
+                                <x-icon type="plus" />
+                            </x-button.button>
+                            @else
                             <x-button.button wire:click="tambahCart({{$m->id}})" color="primary"
                                 class="btn-sm float-right">
                                 <x-icon type="plus" />
                             </x-button.button>
+                            @endif
                         </td>
                         <?php $no++ ?>
                     </tr>
