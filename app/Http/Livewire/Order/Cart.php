@@ -139,7 +139,7 @@ class Cart extends Component
         $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $target->menu->nama . ' Berhasil dihapus dari daftar pemesanan.']);
     }
 
-    public function cetakPdf()
+    public function cetakStruk()
     {
         $pegawai = Pemesanan::all();
 

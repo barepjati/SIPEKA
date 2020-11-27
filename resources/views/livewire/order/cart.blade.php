@@ -155,9 +155,9 @@
                     <x-button.button wire:click="batal" color="danger" class="mb-2">
                         Batalkan Transaksi
                     </x-button.button>
-                    <x-button.button wire:click="create" color="success" class="float-right mb-2">
+                    <x-button.button wire:click="cetakStruk({{$pemesananId}})" color="success" class="float-right mb-2">
                         <x-icon type="plus" />
-                        Cetak Invoice
+                        Cetak Struk
                     </x-button.button>
                     @endif
                 </div>
