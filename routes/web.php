@@ -67,7 +67,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('pemesanan', KaryawanPemesananController::class);
         Route::get('/cart', Cart::class)->name('cart.create');
         Route::get('/cart/{id}', Detail::class)->name('cart.detail');
-        Route::get('/cart/invoice/{id}', Invoice::class)->name('invoice');
+        Route::get('/invoice/{id}/{uang}', Invoice::class)->name('struk');
 
         //Detail Transaksi
     });

@@ -42,12 +42,12 @@
             </x-input.input>
             @if ($pemesananId)
             <x-input.input wire:model="nama" placeholder="{{$nama}}" readonly>
-                <x-slot name="label">Nama Karyawan</x-slot>
+                <x-slot name="label">Nama Pelanggan</x-slot>
             </x-input.input>
             @else
             <form wire:submit.prevent="pemesanan" method="post">
                 <x-input.input wire:model="nama">
-                    <x-slot name="label">Nama</x-slot>
+                    <x-slot name="label">Nama Pelanggan</x-slot>
                 </x-input.input>
                 <x-button.button type="submit" color="primary" class="float-right mb-2">
                     <x-icon type="plus" />

@@ -141,10 +141,14 @@ class Cart extends Component
 
     public function cetakStruk()
     {
-        $pegawai = Pemesanan::all();
+        Pemesanan::where('id', $this->pemesananId)->update([
+            'status'    => 'selesai'
+        ]);
 
-        $pdf = \PDF::loadview('pegawai_pdf', ['pegawai' => $pegawai]);
-        return $pdf->download('laporan-pegawai-pdf');
+        return redirect()->route('struk', [
+            'id' => $this->pemesananId,
+            'uang' => $this->uang
+        ]);
     }
 
     public function render()
