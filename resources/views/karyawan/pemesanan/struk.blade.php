@@ -72,6 +72,12 @@
                 font-weight: bold;
             }
         </style>
+        @livewireStyles
+
+        <!-- Scripts -->
+        @livewireScripts
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
+        <script src="{{ mix('js/app.js') }}"></script>
     </head>
 
     <body>
@@ -82,12 +88,16 @@
             </x-div>
             <hr>
             {{$slot}}
-            <hr>
-            <x-div class="header" style="margin-top: 50px;">
-                <h3>Terimakasih</h3>
-                <p>Silahkan berkunjung kembali</p>
-            </x-div>
         </x-div>
+
+        <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+        <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
+        <script src="{{ asset('dist/js/demo.js') }}"></script>
+
+        @stack('js')
+        @stack('script')
     </body>
 
 </html>

@@ -46,3 +46,17 @@
         </ul>
     </x-div>
 </x-div>
+<hr>
+<x-div class="header" style="margin-top: 50px;">
+    <h3>Terimakasih</h3>
+    <p>Silahkan berkunjung kembali</p>
+
+</x-div>
+
+@push('script')
+<script type="text/javascript">
+    document.addEventListener('livewire:load', function () {
+        @this.on("load", window.print())
+    })
+</script>
+@endpush

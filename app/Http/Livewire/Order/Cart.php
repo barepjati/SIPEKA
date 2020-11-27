@@ -141,14 +141,27 @@ class Cart extends Component
 
     public function cetakStruk()
     {
-        Pemesanan::where('id', $this->pemesananId)->update([
-            'status'    => 'selesai'
-        ]);
+        if ($this->cart) {
+            if ($this->uang) {
+                // dd('cie masuk', route('struk', ['id' => $this->pemesananId, 'uang' => $this->uang]), $this->uang);
+                Pemesanan::where('id', $this->pemesananId)->update([
+                    'status'    => 'selesai'
+                ]);
+                return redirect()->route('struk', [
+                    'id' => $this->pemesananId,
+                    'uang' => $this->uang
+                ]);
+            } else {
+                $this->emit('alert', ['type'  => 'error', 'message' =>  'Input Uang terlebih dahulu.']);
+            }
+        } else {
+            $this->emit('alert', ['type'  => 'error', 'message' =>  'Data Kosong.']);
+        }
 
-        return redirect()->route('struk', [
-            'id' => $this->pemesananId,
-            'uang' => $this->uang
-        ]);
+        // $pegawai = Pemesanan::all();
+
+        // $pdf = \PDF::loadview('pegawai_pdf', ['pegawai' => $pegawai]);
+        // return $pdf->download('laporan-pegawai-pdf');
     }
 
     public function render()

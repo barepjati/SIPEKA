@@ -32,6 +32,11 @@ class Invoice extends Component
         }
     }
 
+    public function kembali()
+    {
+        return redirect()->route('pemesanan.index');
+    }
+
     public function render()
     {
         return view('livewire.order.invoice')
