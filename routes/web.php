@@ -18,6 +18,10 @@ use App\Http\Controllers\Karyawan\PemesananController as KaryawanPemesananContro
 use App\Http\Controllers\Manager\DashboardController;
 use App\Http\Controllers\Manager\KaryawanController;
 use App\Http\Controllers\Manager\MenuController;
+use App\Http\Controllers\Manager\LaporanKinerjaController  as Kinerja;
+use App\Http\Controllers\Manager\LaporanPenjualanController  as Penjualan;
+use App\Http\Controllers\Manager\PemesananController  as Pemesanan;
+
 use App\Http\Livewire\Order\Cart;
 use App\Http\Livewire\Order\Detail;
 use App\Http\Livewire\Order\Invoice;
@@ -42,8 +46,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('karyawan', KaryawanController::class);
 
         //Laporan Penjualan
+        Route::get('laporanPenjualan', [Penjualan::class, 'index'])->name('penjualan.laporan');
 
         //Laporan Pemesanan
+        Route::get('laporanPemesanan', [Pemesanan::class, 'index'])->name('pemesanan.laporan');
+
+        //Laporan Kinerja
+        Route::get('laporanKinerja', [Kinerja::class, 'index'])->name('kinerja.laporan');
 
         //Menu
         Route::resource('menuResto', MenuController::class);

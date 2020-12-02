@@ -46,8 +46,9 @@
     <div class="col-6 col-md-6 col-sm-12">
         <x-card>
             <x-slot name="header">Invoice</x-slot>
-            <x-input.input placeholder="{{Auth::user()->karyawan->nama}}" readonly>
-                <x-slot name="label">Nama Karyawan</x-slot>
+            <x-input.input value="{{Auth::user()->karyawan->nama}}" placeholder="{{Auth::user()->karyawan->nama}}"
+                readonly>
+                <x-slot name="label">Karyawan</x-slot>
             </x-input.input>
             @if ($pemesananId)
             <x-input.input wire:model="nama" placeholder="{{$nama}}" readonly>

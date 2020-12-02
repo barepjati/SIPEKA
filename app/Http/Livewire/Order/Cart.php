@@ -7,7 +7,6 @@ use App\Models\Menu;
 use App\Models\Pemesanan;
 use Livewire\Component;
 use Livewire\WithPagination;
-use tidy;
 
 class Cart extends Component
 {
@@ -143,13 +142,17 @@ class Cart extends Component
     {
         if ($this->cart) {
             if ($this->uang) {
-                Pemesanan::where('id', $this->pemesananId)->update([
-                    'status'    => 'selesai'
-                ]);
-                return redirect()->route('struk', [
-                    'id' => $this->pemesananId,
-                    'uang' => $this->uang
-                ]);
+                if ($this->uang >= $this->total) {
+                    Pemesanan::where('id', $this->pemesananId)->update([
+                        'status'    => 'selesai'
+                    ]);
+                    return redirect()->route('struk', [
+                        'id' => $this->pemesananId,
+                        'uang' => $this->uang
+                    ]);
+                } else {
+                    $this->emit('alert', ['type'  => 'error', 'message' =>  'Uang kurang dari ' . $this->total]);
+                }
             } else {
                 $this->emit('alert', ['type'  => 'error', 'message' =>  'Input Uang terlebih dahulu.']);
             }

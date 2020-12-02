@@ -61,7 +61,11 @@ class ProfilController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('karyawan.profile.ubah', [
+            'title'         => 'profil',
+            'subtitle'      => 'ubah',
+            'active'        => 'profil.index',
+        ]);
     }
 
     /**

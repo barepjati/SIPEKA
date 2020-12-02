@@ -36,7 +36,8 @@ class Index extends Component
 
     public function changePass()
     {
-        return redirect()->route('employee.profil.edit');
+        // dd('masuk');
+        return redirect()->route('profil.edit', Auth::user()->id);
     }
 
     public function render()

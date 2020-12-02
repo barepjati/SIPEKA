@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Update extends Component
 {
-    public $empId, $nama, $email, $username, $password, $newpassword, $newconfirmpassword;
+    public $empId, $nama, $email, $username, $old, $new, $konfirmasi;
 
     /**
      * mount or construct function
@@ -19,55 +19,65 @@ class Update extends Component
         if (Auth::user()->role_id == 1) {
             $this->empId    = $user->id;
             $this->nama     = $user->manager->nama;
-            // $this->password = $user->password;
             $this->email    = $user->email;
             $this->username = $user->username;
         } else {
             $this->empId    = $user->id;
-            $this->nama     = $user->employee->nama;
-            // $this->password = $user->password;
+            $this->nama     = $user->karyawan->nama;
             $this->email    = $user->email;
             $this->username = $user->username;
         }
+    }
 
-        // dd($user);
+    /**
+     * rules
+     */
+    protected $rules = [
+        'old' => ['required'],
+        'new' => ['required', 'min:8', 'max:24', 'different:old', 'confirmed'],
+        'konfirmasi' => ['required'],
+    ];
+
+    protected $messages = [
+        'old.required' => 'Field Password tidak boleh kosong.',
+        'new.required' => 'Field Password Baru tidak boleh kosong.',
+        'new.min' => 'Field Password Baru Minimal 8 karakter.',
+        'new.same' => 'Field Password Baru harus sama dengan Field Konfirmasi Password.',
+        'new.confirmed' => 'Field Password Baru harus sama dengan Field Konfirmasi Password.',
+        'new.different' => 'Field Password Baru harus beda dengan Field Password  Lama.',
+        'konfirmasi.required' => 'Field Konfirmasi Password tidak boleh kosong.',
+    ];
+
+    public function updated($field)
+    {
+        $this->validateOnly($field);
     }
 
     public function update()
     {
-        $this->validate([
-            'password'              => 'required',
-            'newpassword'           => 'required|required_with:newconfirmpassword|same:newconfirmpassword|min:8|different:password',
-            'newconfirmpassword'    => 'required|min:8'
-        ]);
+        // $this->validate();
 
-        // $this->validate([
-        //     'nama'      => 'required|min:6',
-        //     'username'  => 'required|min:6',
-        //     'email'     => 'required|email',
-        // ]);
+        // $user = Auth::user();
+        // dd(Hash::check($this->password, $user->password));
 
-        $user = Auth::user();
-        // dd($user);
-
-
-        if (Hash::check($this->password, $user->password)) {
-            $this->password = $this->newpassword;
-            // dd($this->password);
-            $user->update([
-                'password' => Hash::make($this->password)
-            ]);
-            session()->flash('message', 'Password ' . $this->nama . ' Berhasil Diupdate.');
-            return redirect()->route('employee.profil.index');
-        } else {
-            session()->flash('message', 'Data ' . $this->nama . ' Gagal Diupdate.');
-            return redirect()->route('employee.profil.index');
-        }
+        // if (Hash::check($this->password, $user->password)) {
+        //     $this->password = $this->newpassword;
+        //     dd($this->password);
+        //     $user->update([
+        //         'password' => Hash::make($this->password)
+        //     ]);
+        //     session()->flash('message', 'Password ' . $this->nama . ' Berhasil Diupdate.');
+        //     return redirect()->route('profil.index');
+        // } else {
+        //     dd('masuk');
+        //     session()->flash('message', 'Data ' . $this->nama . ' Gagal Diupdate.');
+        //     return redirect()->route('profil.edit');
+        // }
     }
 
     public function showIndex()
     {
-        return redirect()->route('employee.profil.index');
+        return redirect()->route('profil.index');
     }
 
     public function render()

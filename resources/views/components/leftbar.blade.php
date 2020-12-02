@@ -53,7 +53,9 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item has-treeview">
+                <li class="nav-header"></li>
+                <li
+                    class="nav-item has-treeview {{ $active == 'pemesanan' || $active == 'penjualan' || $active == 'kinerja' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <x-icon class="nav-icon fas fa-" type="book" />
                         <p>
@@ -63,21 +65,24 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('pemesanan.laporan') }}"
+                                class="nav-link {{ $active == 'pemesanan' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Laporan Pemesanan</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('penjualan.laporan') }}"
+                                class="nav-link {{ $active == 'penjualan' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Laporan Penjualan</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('kinerja.laporan') }}"
+                                class="nav-link {{ $active == 'kinerja' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Laporan Pendapatan</p>
+                                <p>Laporan Kinerja</p>
                             </a>
                         </li>
                     </ul>
@@ -93,14 +98,6 @@
                     </a>
                 </li>
                 <li class="nav-header"></li>
-                {{-- <li class="nav-item">
-                    <a href="{{ route('menu.index') }}" class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
-                <x-icon class="nav-icon fas fa-" type="bars" />
-                <p>
-                    Menu Restoran
-                </p>
-                </a>
-                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('menu.index') }}" class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
                         <x-icon class="nav-icon fas fa-" type="bars" />
