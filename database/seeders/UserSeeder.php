@@ -40,7 +40,20 @@ class UserSeeder extends Seeder
                 'username'  => 'karyawan2',
                 'password'  => Hash::make('12345678'),
                 'role_id'   => '2'
+            ],
+            [
+                'email'     => 'pelanggan1@pelanggan.com',
+                'username'  => 'pelanggan1',
+                'password'  => Hash::make('12345678'),
+                'role_id'   => '3'
+            ],
+            [
+                'email'     => 'pelanggan2@pelanggan.com',
+                'username'  => 'pelanggan2',
+                'password'  => Hash::make('12345678'),
+                'role_id'   => '3'
             ]
+
         ];
 
         foreach ($users as $u) {

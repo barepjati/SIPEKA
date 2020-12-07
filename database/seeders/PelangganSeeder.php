@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
 use Illuminate\Database\Seeder;
 
-class RoleSeeder extends Seeder
+class PelangganSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,16 +14,15 @@ class RoleSeeder extends Seeder
     public function run()
     {
         \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        \DB::table('roles')->truncate();
-        \DB::table('roles')->insert([
+        \DB::table('pelanggan')->truncate();
+        \DB::table('pelanggan')->insert([
             [
-                'nama'      => 'manajer',
+                'nama'      => 'pelanggan1',
+                'user_id'   => 5
             ],
             [
-                'nama'      => 'karyawan',
-            ],
-            [
-                'nama'      => 'pelanggan',
+                'nama'      => 'pelanggan2',
+                'user_id'   => 6
             ]
         ]);
     }

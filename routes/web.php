@@ -36,8 +36,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// For Manager
 Route::group(['middleware' => ['auth']], function () {
+    // For Manager
     Route::group(['prefix' => 'manajer', 'middleware' => ['role:manajer']], function () {
         //Dashboard
         Route::get('/', DashboardController::class)->name('manajer.dashboard');

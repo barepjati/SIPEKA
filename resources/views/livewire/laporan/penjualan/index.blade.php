@@ -11,7 +11,7 @@
         <x-material.infobox col="col-md-4 col-12" icon="stats-bars" color="primary" :count="number_format($yesterday)"
             label="Pendapatan Penjualan Bulan Kemarin" />
         <x-material.infobox col="col-md-4 col-12" icon="stats-bars" color="primary" :count="count($count)"
-            label="Test" />
+            label="Total Penjualan Bulan Ini" />
     </x-div>
     <x-div class="row">
         <x-form>
@@ -36,7 +36,6 @@
     </x-div>
     <x-card>
         <x-slot name="header">Data Penjualan</x-slot>
-        {{-- <input type="text" class="form-control" placeholder="Search" wire:model="cariData" /> --}}
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -47,6 +46,14 @@
                 </tr>
             </thead>
             <tbody>
+                @if ($data == null)
+                <tr>
+                    <td class="emptyrow"></td>
+                    <td class="emptyrow">No data</td>
+                    <td class="emptyrow"></td>
+                    <td class="emptyrow"></td>
+                </tr>
+                @else
                 <?php $no=1 ?>
                 @foreach ($data as $d)
                 <tr>
@@ -57,6 +64,7 @@
                     <?php $no++ ?>
                 </tr>
                 @endforeach
+                @endif
             </tbody>
         </table><br>
         <x-div class="float-right">

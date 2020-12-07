@@ -11,18 +11,17 @@ use Livewire\WithPagination;
 class Index extends Component
 {
     use WithPagination;
-    public $total, $yesterday, $persen, $month, $year;
+    public $total, $yesterday, $persen, $month, $year, $count;
     protected $paginationTheme = 'bootstrap';
 
     public function mount()
     {
         $now = Carbon::now();
-        $yesterday = Carbon::yesterday();
+        $yesterday = $this->lastMont();
         $this->month = $now->month;
         $this->year = $now->year;
-        // dd($this->year, $this->month);
         $dataSkrg = Pemesanan::where('status', 'selesai')->whereMonth('created_at', $now->month)->get();
-        $dataBlnLalu = Pemesanan::where('status', 'selesai')->whereMonth('created_at', $yesterday->month)->get();;
+        $dataBlnLalu = Pemesanan::where('status', 'selesai')->whereMonth('created_at', $yesterday)->get();
         foreach ($dataSkrg as $d) {
             $this->total += $d->total;
         }
@@ -30,6 +29,20 @@ class Index extends Component
             $this->yesterday += $d->total;
         }
         $this->persen = ($this->total - $this->yesterday) / $this->yesterday * 100;
+        $this->count = $dataSkrg;
+    }
+
+    public function lastMont()
+    {
+        $date = Carbon::now();
+        $lastMonth =  $date->subMonth()->format('m');
+        return $lastMonth;
+    }
+
+    public function month()
+    {
+        $date = Carbon::now()->format('m');
+        return $date;
     }
 
     public function render()
@@ -39,7 +52,6 @@ class Index extends Component
                 ->WhereYear('created_at', 'like', '%' . $this->year . '%')
                 ->latest()
                 ->paginate(10),
-            'count' => DetailPemesanan::all()
         ]);
     }
 }
