@@ -60,7 +60,7 @@
                     <td>{{$no}}</td>
                     <td>{{$d->nama}}</td>
                     <td>{{$d->total}}</td>
-                    <td>{{count($count->where('transaksi_id', $d->id))}}</td>
+                    <td>{{count($detail->where('transaksi_id', $d->id))}}</td>
                     <?php $no++ ?>
                 </tr>
                 @endforeach

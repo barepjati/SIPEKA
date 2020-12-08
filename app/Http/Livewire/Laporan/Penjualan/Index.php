@@ -29,6 +29,7 @@ class Index extends Component
             $this->yesterday += $d->total;
         }
         $this->persen = ($this->total - $this->yesterday) / $this->yesterday * 100;
+        // dd($this->total - $this->yesterday, $this->yesterday, $this->persen);
         $this->count = $dataSkrg;
     }
 
@@ -52,6 +53,7 @@ class Index extends Component
                 ->WhereYear('created_at', 'like', '%' . $this->year . '%')
                 ->latest()
                 ->paginate(10),
+            'detail' => DetailPemesanan::all()
         ]);
     }
 }
