@@ -114,6 +114,15 @@
                         </table>
                     </div>
                     <x-button.button wire:click="back" color="danger" class="mb-2">Kembali</x-button.button>
+                    @if ($status == 'pending')
+                    <x-button.button wire:click="proses({{$pemesananId}})" color="primary" class="mb-2 float-right">
+                        Proses Pesanan
+                    </x-button.button>
+                    @elseif ($status == 'diproses')
+                    <x-button.button wire:click="kirim({{$pemesananId}})" color="primary" class="mb-2 float-right">Kirim
+                        Pesanan
+                    </x-button.button>
+                    @endif
                     {{-- @if ($pemesananId)
                     <x-button.button wire:click="create" color="danger" class="mb-2">
                         <x-icon type="cros" />

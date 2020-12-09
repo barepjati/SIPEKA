@@ -16,7 +16,8 @@ class Pemesanan extends Model
         'nama',
         'status',
         'total',
-        'user_id'
+        'user_id',
+        'pelanggan_id'
     ];
 
     public function user()
@@ -27,5 +28,10 @@ class Pemesanan extends Model
     public function cart()
     {
         return $this->hasOne('App\Models\DetailPemesanan');
+    }
+
+    public function pelanggan()
+    {
+        return $this->belongsTo('App\Models\Pelanggan');
     }
 }

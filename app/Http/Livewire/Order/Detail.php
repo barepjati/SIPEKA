@@ -39,6 +39,29 @@ class Detail extends Component
         return redirect()->route('pemesanan.index');
     }
 
+    public function proses($id)
+    {
+        $data = Pemesanan::find($id);
+        $data->update([
+            'status'    => 'diproses',
+            'user_id'   => \Auth::user()->id
+        ]);
+        $this->status = $data->status;
+        $this->emit('alert', ['type'  => 'success', 'message' =>  'Pesanan diupdate ke diproses.']);
+        // return redirect()->back();
+    }
+
+    public function kirim($id)
+    {
+        $data = Pemesanan::find($id);
+        $data->update([
+            'status'    => 'dikirim',
+            'user_id'   => \Auth::user()->id
+        ]);
+        $this->status = $data->status;
+        $this->emit('alert', ['type'  => 'success', 'message' =>  'Pesanan diupdate ke dikirim.']);
+    }
+
     public function render()
     {
         return view('livewire.order.detail', [

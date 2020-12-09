@@ -74,10 +74,18 @@ Route::group(['middleware' => ['auth']], function () {
 
         //Pemesanan
         Route::resource('pemesanan', KaryawanPemesananController::class);
+        Route::put('pemesanan/proses/{id}', [KaryawanPemesananController::class, 'proses'])->name('update.proses');
+        Route::put('pemesanan/kirim/{id}', [KaryawanPemesananController::class, 'kirim'])->name('update.kirim');
         Route::get('/cart', Cart::class)->name('cart.create');
         Route::get('/cart/{id}', Detail::class)->name('cart.detail');
         Route::get('/invoice/{id}/{uang}', Invoice::class)->name('struk');
 
         //Detail Transaksi
+    });
+
+    Route::group(['prefix' => 'pelanggan', 'middleware' => ['role:pelanggan']], function () {
+        Route::get('/', DashboardController::class)->name('pelanggan.dashboard');
+
+        Route::get('/cart', Cart::class)->name('pesan.create');
     });
 });

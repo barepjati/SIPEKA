@@ -9,7 +9,7 @@ class Pelanggan extends Model
 {
     use HasFactory;
 
-    protected $table = 'karyawan';
+    protected $table = 'pelanggan';
 
     protected $fillable = [
         'nama',
@@ -19,5 +19,10 @@ class Pelanggan extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function transaksi()
+    {
+        return $this->hasMany('App\Models\Pemesanan');
     }
 }

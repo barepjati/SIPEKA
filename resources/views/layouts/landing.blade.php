@@ -106,9 +106,12 @@
                                             @if (Auth::user()->role->nama == 'manajer')
                                             <a class="button button-primary button-block"
                                                 href="{{ route('manajer.dashboard') }}">Dashboard</a>
-                                            @else
+                                            @elseif (Auth::user()->role->nama == 'karyawan')
                                             <a class="button button-primary button-block"
                                                 href="{{ route('karyawan.dashboard') }}">Dashboard</a>
+                                            @else
+                                            <a class="button button-primary button-block"
+                                                href="{{ route('pelanggan.dashboard') }}">Dashboard</a>
                                             @endif
                                             @else
                                             <a class="button button-primary button-block"

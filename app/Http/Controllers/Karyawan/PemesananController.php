@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Karyawan;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pemesanan;
 use Illuminate\Http\Request;
 
 class PemesananController extends Controller
@@ -85,5 +86,29 @@ class PemesananController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function proses($id)
+    {
+        $data = Pemesanan::find($id);
+        $data->update([
+            'status'    => 'diproses',
+            'user_id'   => \Auth::user()->id
+        ]);
+        session()->flash('message', 'Data Pesanan ' . $data->nama .' diproses.');
+        return redirect()->back();
+        // dd($data);
+    }
+
+    public function kirim($id)
+    {
+        $data = Pemesanan::find($id);
+        $data->update([
+            'status'    => 'dikirim',
+            'user_id'   => \Auth::user()->id
+        ]);
+        session()->flash('message', 'Data Pesanan ' . $data->nama .' dikirim.');
+        return redirect()->back();
+        // dd('masuk kirim');
     }
 }

@@ -42,9 +42,15 @@
             {{ $menu->links() }}
         </x-card>
     </div>
-    {{-- {{dd($pemesananId)}} --}}
     <div class="col-6 col-md-6 col-sm-12">
         <x-card>
+            @if (Auth::user()->role->nama == "pelanggan")
+            <x-slot name="header">Pesan Online</x-slot>
+            <x-input.input value="{{Auth::user()->pelanggan->nama}}" placeholder="{{Auth::user()->pelanggan->nama}}"
+                readonly>
+                <x-slot name="label">Nama</x-slot>
+            </x-input.input>
+            @else
             <x-slot name="header">Invoice</x-slot>
             <x-input.input value="{{Auth::user()->karyawan->nama}}" placeholder="{{Auth::user()->karyawan->nama}}"
                 readonly>
@@ -64,6 +70,7 @@
                     Tambah Data
                 </x-button.button>
             </form>
+            @endif
             @endif
             <div class="row">
                 <div class="col-md-12">
@@ -129,6 +136,7 @@
                                     </td>
                                     <td class="highrow emptyrow"></td>
                                 </tr>
+                                @if (Auth::user()->role->nama == "karyawan")
                                 <tr>
                                     <td class="emptyrow"></td>
                                     <td class="emptyrow"></td>
@@ -158,16 +166,27 @@
                                     {{-- {{ isset($kembali) ? number_format($kembali) : '0' }} --}}
                                     <td class="emptyrow"></td>
                                 </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>
                     @if ($pemesananId)
+                    @if (Auth::user()->role->nama == "pelanggan")
                     <x-button.button wire:click="batal" color="danger" class="mb-2">
                         Batalkan Transaksi
                     </x-button.button>
+                    @else
+                    <x-button.button wire:click="batal" color="danger" class="mb-2">
+                        Batalkan Transaksi
+                    </x-button.button>
+                    @endif
                     <x-button.button wire:click="cetakStruk({{$pemesananId}})" color="success" class="float-right mb-2">
                         <x-icon type="plus" />
+                        @if (Auth::user()->role->nama == "pelanggan")
+                        Buat Pesanan
+                        @else
                         Cetak Struk
+                        @endif
                     </x-button.button>
                     @endif
                 </div>

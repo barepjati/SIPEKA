@@ -87,7 +87,7 @@
                         </li>
                     </ul>
                 </li>
-                @else
+                @elseif (Auth::user()->role_id == 2)
                 <li class="nav-item">
                     <a href="{{ route('karyawan.dashboard') }}"
                         class="nav-link {{ $active == 'dashboard' ? 'active' : '' }}">
@@ -122,6 +122,34 @@
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Profil
+                        </p>
+                    </a>
+                </li>
+                @else
+                <li class="nav-item">
+                    <a href="{{ route('pelanggan.dashboard') }}"
+                        class="nav-link {{ $active == 'dashboard' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header"></li>
+                <li class="nav-item">
+                    <a href="{{ route('pesan.create') }}"
+                        class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
+                        <x-icon class="nav-icon fas fa-" type="bars" />
+                        <p>
+                            Pesan
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
+                        <x-icon class="nav-icon fas fa-" type="bars" />
+                        <p>
+                            History Pemesanan
                         </p>
                     </a>
                 </li>

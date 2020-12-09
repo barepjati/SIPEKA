@@ -16,9 +16,10 @@ class CreateTransaksiTable extends Migration
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
             $table->uuid('no_transaksi')->nullable();
-            $table->string('status')->default('belum dibayar')->comment('belum dibayar, sudah dibayar, batal, selesai');
+            $table->string('status')->default('belum dibayar')->comment('belum dibayar, pending, diproses, dikirim, selesai');
             $table->string('nama');
-            $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade')->nullable();
+            $table->foreignId('pelanggan_id')->nullable()->constrained('pelanggan')->onUpdate('cascade')->onDelete('cascade')->nullable();
             // $table->double('total');
             $table->timestamps();
         });

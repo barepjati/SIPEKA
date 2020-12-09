@@ -2,10 +2,12 @@
 
 namespace App\View\Components;
 
+use App\Models\Pemesanan;
 use Illuminate\View\Component;
 
 class Navbar extends Component
 {
+    // public $data;
     /**
      * Create a new component instance.
      *
@@ -13,7 +15,13 @@ class Navbar extends Component
      */
     public function __construct()
     {
-        //
+
+        // $data = asfk;
+    }
+
+    public function detail($id)
+    {
+        # code...
     }
 
     /**
@@ -23,6 +31,12 @@ class Navbar extends Component
      */
     public function render()
     {
-        return view('components.navbar');
+        $data = Pemesanan::where('status', 'pending')->get();
+        // dd($data);
+        return view('components.navbar', [
+            'data'  => Pemesanan::where('status', 'pending')->orWhere('status', 'diproses')->get(),
+            'pending'  => Pemesanan::where('status', 'pending')->get(),
+            'proses'  => Pemesanan::where('status', 'diproses')->get(),
+        ]);
     }
 }

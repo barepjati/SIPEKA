@@ -51,13 +51,19 @@ class Cart extends Component
         $ada = DetailPemesanan::where('transaksi_id', $this->pemesananId)
             ->where('menu_id', $id)
             ->exists();
-        if ($this->pemesananId) {
-            if ($ada) {
-                $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
-                $this->emit('alert', ['type'  => 'error', 'message' =>  'Data ' . $menu->nama . ' Sudah Ditambahkan.']);
-            } else {
+
+        if (\Auth::user()->role->id == 3) {
+            $this->nama = \Auth::user()->pelanggan->nama;
+            if ($this->pemesananId == null) {
+                $pemesanan = Pemesanan::create([
+                    'nama' => $this->nama,
+                    'no_transaksi' => (string) \Str::uuid(),
+                    'total' => 0,
+                    'status' => 'pending'
+                ]);
+                $this->pemesananId = $pemesanan->id;
                 DetailPemesanan::create([
-                    'transaksi_id'  => $this->pemesananId,
+                    'transaksi_id'  => $pemesanan->id,
                     'menu_id'       => $id,
                     'kuantitas'     => 1,
                     'harga'         => $menu->harga
@@ -65,9 +71,41 @@ class Cart extends Component
                 $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
                 $this->total = $this->total + $menu->harga;
                 $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $menu->nama . ' Berhasil Ditambah.']);
+            } else {
+                if ($ada) {
+                    $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
+                    $this->emit('alert', ['type'  => 'error', 'message' =>  'Data ' . $menu->nama . ' Sudah Ditambahkan.']);
+                } else {
+                    DetailPemesanan::create([
+                        'transaksi_id'  => $this->pemesananId,
+                        'menu_id'       => $id,
+                        'kuantitas'     => 1,
+                        'harga'         => $menu->harga
+                    ]);
+                    $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
+                    $this->total = $this->total + $menu->harga;
+                    $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $menu->nama . ' Berhasil Ditambah.']);
+                }
             }
         } else {
-            $this->emit('alert', ['type'  => 'error', 'message' =>  'Silakan inputkan Nama']);
+            if ($this->pemesananId) {
+                if ($ada) {
+                    $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
+                    $this->emit('alert', ['type'  => 'error', 'message' =>  'Data ' . $menu->nama . ' Sudah Ditambahkan.']);
+                } else {
+                    DetailPemesanan::create([
+                        'transaksi_id'  => $this->pemesananId,
+                        'menu_id'       => $id,
+                        'kuantitas'     => 1,
+                        'harga'         => $menu->harga
+                    ]);
+                    $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
+                    $this->total = $this->total + $menu->harga;
+                    $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $menu->nama . ' Berhasil Ditambah.']);
+                }
+            } else {
+                $this->emit('alert', ['type'  => 'error', 'message' =>  'Silakan inputkan Nama']);
+            }
         }
     }
 
@@ -124,7 +162,11 @@ class Cart extends Component
         $target = Pemesanan::findOrFail($this->pemesananId);
         $target->delete();
         session()->flash('message', 'Data Transaksi Dibatalkan.');
-        return redirect()->route('pemesanan.index');
+        if (\Auth::user()->role_id == 3) {
+            return redirect()->route('pelanggan.dashboard');
+        } else {
+            return redirect()->route('pemesanan.index');
+        }
     }
 
     public function destroy($id)
@@ -141,25 +183,38 @@ class Cart extends Component
     public function cetakStruk()
     {
         if ($this->cart) {
-            if ($this->uang) {
-                if ($this->uang >= $this->total) {
-                    Pemesanan::where('id', $this->pemesananId)->update([
-                        'status'    => 'selesai'
-                    ]);
-                    return redirect()->route('struk', [
-                        'id' => $this->pemesananId,
-                        'uang' => $this->uang
-                    ]);
-                } else {
-                    $this->emit('alert', ['type'  => 'error', 'message' =>  'Uang kurang dari ' . $this->total]);
-                }
+            if (\Auth::user()->role->nama == "pelanggan") {
+                Pemesanan::where('id', $this->pemesananId)->update([
+                    'status'        => 'pending',
+                    'total'         => $this->total,
+                    'pelanggan_id'  => \Auth::user()->pelanggan->id
+                ]);
+                session()->flash('message', 'Pesanan sudah diinputkan harap menunnggu.');
+                return redirect(route('pelanggan.dashboard'));
+                // return redirect()->route('pelanggan.dashboard')->with('success', 'Pesanan sudah diinputkan harap menunnggu');
             } else {
-                $this->emit('alert', ['type'  => 'error', 'message' =>  'Input Uang terlebih dahulu.']);
+                if ($this->uang) {
+                    if ($this->uang >= $this->total) {
+                        Pemesanan::where('id', $this->pemesananId)->update([
+                            'status'    => 'selesai'
+                        ]);
+                        return redirect()->route('struk', [
+                            'id' => $this->pemesananId,
+                            'uang' => $this->uang
+                        ]);
+                    } else {
+                        $this->emit('alert', ['type'  => 'error', 'message' =>  'Uang kurang dari ' . $this->total]);
+                    }
+                } else {
+                    $this->emit('alert', ['type'  => 'error', 'message' =>  'Input Uang terlebih dahulu.']);
+                }
             }
         } else {
             $this->emit('alert', ['type'  => 'error', 'message' =>  'Data Kosong.']);
         }
     }
+
+
 
     public function render()
     {
