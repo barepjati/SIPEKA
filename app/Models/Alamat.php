@@ -14,11 +14,16 @@ class Alamat extends Model
     protected $fillable = [
         'sebagai',
         'alamat',
-        'user_id'
+        'user_id',
     ];
 
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function pemesanan()
+    {
+        return $this->hasOne('App\Models\Pemesanan');
     }
 }

@@ -60,6 +60,11 @@
             <x-input.input placeholder="{{Auth::user()->karyawan->nama}}" readonly>
                 <x-slot name="label">Nama Karyawan</x-slot>
             </x-input.input>
+            @if ($status == 'diproses')
+            <x-input.textarea wire:model="alamat" value="{{$alamat}}" placeholder="{{$alamat}}" readonly>
+                <x-slot name="label">Alamat</x-slot>
+            </x-input.textarea>
+            @endif
             @endif
             <div class="row">
                 <div class="col-md-12">

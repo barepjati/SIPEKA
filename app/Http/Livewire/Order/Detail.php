@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Order;
 
+use App\Models\Alamat;
 use App\Models\DetailPemesanan;
 use App\Models\Menu;
 use App\Models\Pemesanan;
@@ -13,7 +14,7 @@ class Detail extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart, $uang, $kembali;
+    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart, $uang, $kembali, $alamat;
 
     /**
      * mount or construct function
@@ -22,7 +23,7 @@ class Detail extends Component
     {
         $target = Pemesanan::findOrFail($id);
         $cart   = DetailPemesanan::where('transaksi_id', $id)->get();
-        // dd($target->nama);
+        // dd($target->alamat->alamat);
         if ($target) {
             $this->pemesananId  = $target->id;
             $this->no_transaksi = $target->no_transaksi;
@@ -32,6 +33,7 @@ class Detail extends Component
             $this->cart         = $cart;
             $this->uang         = 0;
             $this->kembali      = 0;
+            $this->alamat       = $target->alamat->alamat;
         }
     }
 

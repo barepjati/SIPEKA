@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Order;
 
+use App\Models\Alamat;
 use App\Models\DetailPemesanan;
 use App\Models\Menu;
 use App\Models\Pemesanan;
@@ -12,7 +13,17 @@ class Cart extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart, $uang, $kembali;
+    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart, $uang, $kembali, $alamat;
+
+    public function mount()
+    {
+        if (\Auth::user()->role_id == 3) {
+            $this->alamat = Alamat::where('user_id', \Auth::user()->id)->first();
+            // dd($this->alamat->alamat);
+        } else {
+            $this->alamat == null;
+        }
+    }
 
     protected $rules = [
         'nama' => 'required|min:2',
@@ -184,14 +195,19 @@ class Cart extends Component
     {
         if ($this->cart) {
             if (\Auth::user()->role->nama == "pelanggan") {
-                Pemesanan::where('id', $this->pemesananId)->update([
-                    'status'        => 'pending',
-                    'total'         => $this->total,
-                    'pelanggan_id'  => \Auth::user()->pelanggan->id
-                ]);
-                session()->flash('message', 'Pesanan sudah diinputkan harap menunnggu.');
-                return redirect(route('pelanggan.dashboard'));
-                // return redirect()->route('pelanggan.dashboard')->with('success', 'Pesanan sudah diinputkan harap menunnggu');
+                if (Alamat::where('user_id', \Auth::user()->id)->first()) {
+                    // dd($this->alamat->alamat);
+                    Pemesanan::where('id', $this->pemesananId)->update([
+                        'status'        => 'pending',
+                        'total'         => $this->total,
+                        'pelanggan_id'  => \Auth::user()->pelanggan->id,
+                        'alamat_id'     => $this->alamat->id,
+                    ]);
+                    session()->flash('message', 'Pesanan sudah diinputkan harap menunnggu.');
+                    return redirect(route('pelanggan.dashboard'));
+                } else {
+                    $this->emit('alert', ['type'  => 'error', 'message' =>  'Alamat Kosong Silakan tambah Alamat di Menu alamat']);
+                }
             } else {
                 if ($this->uang) {
                     if ($this->uang >= $this->total) {

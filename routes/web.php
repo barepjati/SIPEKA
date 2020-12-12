@@ -24,9 +24,11 @@ use App\Http\Controllers\Manager\PemesananController  as Pemesanan;
 
 use App\Http\Controllers\Pelanggan\PemesananController as Pesan;
 use App\Http\Controllers\Pelanggan\ProfilController;
+
 use App\Http\Livewire\Order\Cart;
 use App\Http\Livewire\Order\Detail;
 use App\Http\Livewire\Order\Invoice;
+use App\Http\Livewire\Profile\Address;
 
 Route::get('/', function () {
     return view('layouts.landing');
@@ -94,6 +96,6 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/profil', [ProfilController::class, 'index'])->name('pelanggan.profil');
         Route::get('/profil/edit', [ProfilController::class, 'edit'])->name('pelanggan.edit');
-        Route::get('/alamat/edit', [ProfilController::class, 'alamat'])->name('pelanggan.alamat');
+        Route::get('/alamat/edit', Address::class)->name('pelanggan.alamat');
     });
 });

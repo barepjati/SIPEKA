@@ -19,13 +19,13 @@ class Index extends Component
     {
         $user = Auth::user();
         $alamat = Alamat::where('user_id', Auth::user()->id)->where('status', 'dipilih')->first();
-        // dd($alamat != null);
+        // dd($alamat);
         if (Auth::user()->role_id == 3) {
             $this->userId   = $user->id;
             $this->nama     = $user->pelanggan->nama;
             $this->email    = $user->email;
             $this->username = $user->username;
-            if ($alamat == null) {
+            if ($alamat != null) {
                 $this->alamat   = $alamat;
             } else {
                 $this->alamat   = null;
@@ -45,6 +45,13 @@ class Index extends Component
         } else {
             return redirect()->route('profil.edit', Auth::user()->id);
         }
+    }
+
+    public function alamat()
+    {
+
+        return redirect()->route('pelanggan.alamat');
+        // return redirect()->route('profil.edit', Auth::user()->id);
     }
 
     public function render()

@@ -50,6 +50,11 @@
                 readonly>
                 <x-slot name="label">Nama</x-slot>
             </x-input.input>
+            @if ($alamat)
+            <x-input.textarea value="{{$alamat->alamat}}" placeholder="{{$alamat->alamat}}" readonly>
+                <x-slot name="label">Alamat</x-slot>
+            </x-input.textarea>
+            @endif
             @else
             <x-slot name="header">Invoice</x-slot>
             <x-input.input value="{{Auth::user()->karyawan->nama}}" placeholder="{{Auth::user()->karyawan->nama}}"

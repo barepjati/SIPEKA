@@ -20,6 +20,7 @@ class CreateTransaksiTable extends Migration
             $table->string('nama');
             $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade')->nullable();
             $table->foreignId('pelanggan_id')->nullable()->constrained('pelanggan')->onUpdate('cascade')->onDelete('cascade')->nullable();
+            $table->foreignId('alamat_id')->nullable()->constrained('alamat')->onUpdate('cascade')->onDelete('cascade')->nullable();
             // $table->double('total');
             $table->timestamps();
         });

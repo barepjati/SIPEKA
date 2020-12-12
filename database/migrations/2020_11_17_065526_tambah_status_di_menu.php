@@ -18,7 +18,7 @@ class TambahStatusDiMenu extends Migration
                 'tersedia',
                 'habis',
                 'dimasak'
-            ])->default('habis');
+            ])->default('tersedia');
         });
     }
 

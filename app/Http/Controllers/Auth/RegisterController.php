@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Alamat;
 use App\Models\Pelanggan;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -55,6 +56,7 @@ class RegisterController extends Controller
             'username' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'alamat' => ['required', 'string'],
         ]);
     }
 
@@ -76,6 +78,13 @@ class RegisterController extends Controller
         Pelanggan::create([
             'user_id' => $user->id,
             'nama' => $data['nama']
+        ]);
+
+        Alamat::create([
+            'sebagai' => 'rumah',
+            'alamat' => $data['alamat'],
+            'user_id' => $user->id,
+            'status' => 'dipilih'
         ]);
 
         return $user;

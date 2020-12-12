@@ -69,8 +69,6 @@
             <div class="input-group mb-3">
                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
                     autocomplete="new-password" placeholder="Confirm Password">
-                {{-- <input id="password-confirm" type="password" class="form-control" placeholder="Confirm Password"
-                    autocomplete="new-password"> --}}
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-lock"></span>
