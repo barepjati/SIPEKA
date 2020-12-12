@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             MenuSeeder::class,
             TransaksiSeeder::class,
             DetailTransaksiSeeder::class,
+            AlamatSeeder::class,
         ]);
     }
 }

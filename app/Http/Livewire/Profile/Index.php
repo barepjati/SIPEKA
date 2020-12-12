@@ -2,14 +2,15 @@
 
 namespace App\Http\Livewire\Profile;
 
-use App\Models\Employee;
-use App\Models\Karyawan;
+// use App\Models\Manager;
+
+use App\Models\Alamat;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Index extends Component
 {
-    public $empId, $nama, $email, $username;
+    public $userId, $nama, $email, $username, $alamat;
 
     /**
      * mount or construct function
@@ -17,27 +18,33 @@ class Index extends Component
     public function mount()
     {
         $user = Auth::user();
-
-        if (Auth::user()->role == 'manajer') {
-            $this->empId    = $user->id;
-            $this->nama     = $user->nama;
-            $this->email    = $user->manajer->email;
-            $this->username = $user->manajer->username;
-        } else {
-
-            $this->empId    = $user->id;
+        $alamat = Alamat::where('user_id', Auth::user()->id)->where('status', 'dipilih')->first();
+        // dd($alamat != null);
+        if (Auth::user()->role_id == 3) {
+            $this->userId   = $user->id;
+            $this->nama     = $user->pelanggan->nama;
+            $this->email    = $user->email;
+            $this->username = $user->username;
+            if ($alamat == null) {
+                $this->alamat   = $alamat;
+            } else {
+                $this->alamat   = null;
+            }
+        } elseif (Auth::user()->role_id == 2) {
+            $this->userId   = $user->id;
             $this->nama     = $user->karyawan->nama;
             $this->email    = $user->email;
             $this->username = $user->username;
         }
-
-        // dd($user);
     }
 
     public function changePass()
     {
-        // dd('masuk');
-        return redirect()->route('profil.edit', Auth::user()->id);
+        if (Auth::user()->role_id == 3) {
+            return redirect()->route('pelanggan.edit', Auth::user()->id);
+        } else {
+            return redirect()->route('profil.edit', Auth::user()->id);
+        }
     }
 
     public function render()
@@ -47,6 +54,6 @@ class Index extends Component
                 'title'     => 'profil',
                 'subtitle'  => '',
                 'active'    => 'profile.index'
-            ]);;
+            ]);
     }
 }

@@ -115,6 +115,31 @@
                         </p>
                     </a>
                 </li>
+                <li
+                    class="nav-item has-treeview {{ $active == 'menu.index' || $active == 'kategori.index' ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <x-icon class="nav-icon fas fa-" type="bars" />
+                        <p>
+                            Reservasi
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <x-icon class="nav-icon fas fa-" type="circle" />
+                                {{-- <i class="far fa-circle nav-icon"></i> --}}
+                                <p>Data Meja</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
+                                <x-icon class="nav-icon fas fa-" type="circle" />
+                                <p>Reservasi Meja</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-header"></li>
                 <li class="nav-item">
                     <a href="{{ route('profil.index') }}"
@@ -146,12 +171,39 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
+                    <a href="{{ route('pesan.history') }}"
+                        class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
                         <x-icon class="nav-icon fas fa-" type="bars" />
                         <p>
                             History Pemesanan
                         </p>
                     </a>
+                </li>
+                <li class="nav-header"></li>
+                <li
+                    class="nav-item has-treeview {{ $active == 'menu.index' || $active == 'kategori.index' ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <x-icon class="nav-icon fas fa-" type="user" />
+                        <p>
+                            Profil
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <x-icon class="nav-icon fas fa-" type="circle" />
+                                <p>Alamat</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('pelanggan.profil') }}"
+                                class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
+                                <x-icon class="nav-icon fas fa-" type="circle" />
+                                <p>Data Diri</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 @endif
             </ul>

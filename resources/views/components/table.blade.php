@@ -4,7 +4,7 @@
             <h3 class="card-title">{{$title}}</h3>
         </div>
         <div class="card-body">
-            {{ $button }}
+            {{ isset($button) ? $button : null }}
             <table id="dt" class="table table-bordered table-striped">
                 {{ $slot }}
             </table>

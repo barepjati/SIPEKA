@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Update extends Component
 {
-    public $empId, $nama, $email, $username, $old, $new, $konfirmasi;
+    public $userId, $nama, $email, $username, $old, $new, $confirm;
 
     /**
      * mount or construct function
@@ -16,13 +16,13 @@ class Update extends Component
     public function mount()
     {
         $user = Auth::user();
-        if (Auth::user()->role_id == 1) {
-            $this->empId    = $user->id;
-            $this->nama     = $user->manager->nama;
+        if (Auth::user()->role_id == 3) {
+            $this->userId   = $user->id;
+            $this->nama     = $user->pelanggan->nama;
             $this->email    = $user->email;
             $this->username = $user->username;
-        } else {
-            $this->empId    = $user->id;
+        } elseif (Auth::user()->role_id == 2) {
+            $this->userId   = $user->id;
             $this->nama     = $user->karyawan->nama;
             $this->email    = $user->email;
             $this->username = $user->username;
@@ -34,17 +34,15 @@ class Update extends Component
      */
     protected $rules = [
         'old' => ['required'],
-        'new' => ['required', 'min:8', 'different:old', 'confirmed'],
-        'konfirmasi' => ['required'],
+        'new' => ['required', 'string', 'min:8', 'different:old'],
     ];
 
     protected $messages = [
         'old.required' => 'Field Password tidak boleh kosong.',
         'new.required' => 'Field Password Baru tidak boleh kosong.',
         'new.min' => 'Field Password Baru Minimal 8 karakter.',
-        'new.confirmed' => 'Field Password Baru harus sama dengan Field Konfirmasi Password.',
+        // 'new.confirmed' => 'Field Password Baru harus sama dengan Field Konfirmasi Password.',
         'new.different' => 'Field Password Baru harus beda dengan Field Password  Lama.',
-        'konfirmasi.required' => 'Field Konfirmasi Password tidak boleh kosong.',
     ];
 
     public function updated($field)
@@ -54,29 +52,35 @@ class Update extends Component
 
     public function update()
     {
+        $user = Auth::user();
         $this->validate();
-
-        // $user = Auth::user();
-        // dd(Hash::check($this->password, $user->password));
-
-        // if (Hash::check($this->password, $user->password)) {
-        //     $this->password = $this->newpassword;
-        //     dd($this->password);
-        //     $user->update([
-        //         'password' => Hash::make($this->password)
-        //     ]);
-        //     session()->flash('message', 'Password ' . $this->nama . ' Berhasil Diupdate.');
-        //     return redirect()->route('profil.index');
-        // } else {
-        //     dd('masuk');
-        //     session()->flash('message', 'Data ' . $this->nama . ' Gagal Diupdate.');
-        //     return redirect()->route('profil.edit');
-        // }
+        if (Hash::check($this->old, $user->password)) {
+            $user->update([
+                'password' => Hash::make($this->new)
+            ]);
+            session()->flash('message', 'Password ' . $this->nama . ' Berhasil Diupdate.');
+            if (Auth::user()->role_id == 3) {
+                return redirect()->route('pelanggan.profil');
+            } else {
+                return redirect()->route('profil.index');
+            }
+        } else {
+            session()->flash('message', 'Data ' . $this->nama . ' Gagal Diupdate.');
+            if (Auth::user()->role_id == 3) {
+                return redirect()->route('pelanggan.profil');
+            } else {
+                return redirect()->route('profil.index');
+            }
+        }
     }
 
     public function showIndex()
     {
-        return redirect()->route('profil.index');
+        if (Auth::user()->role_id == 2) {
+            return redirect()->route('profil.index');
+        } else {
+            return redirect()->route('pelanggan.profil');
+        }
     }
 
     public function render()

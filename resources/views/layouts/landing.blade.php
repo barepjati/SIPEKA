@@ -83,6 +83,7 @@
                                     </svg>
                                 </a>
                             </h1>
+
                         </div>
                     </div>
                 </div>
@@ -114,8 +115,12 @@
                                                 href="{{ route('pelanggan.dashboard') }}">Dashboard</a>
                                             @endif
                                             @else
-                                            <a class="button button-primary button-block"
-                                                href="{{ route('login') }}">Login</a>
+                                            <div class="row">
+                                                <a class="button button-primary button-block"
+                                                    style="margin-bottom: 10px;" href="{{ route('login') }}">Login</a>
+                                                <a class="button button-primary button-block"
+                                                    href="{{ route('register') }}">Register</a>
+                                            </div>
                                             @endif
                                         </div>
                                         @endif

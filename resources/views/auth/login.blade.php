@@ -51,7 +51,7 @@
                 <!-- /.col -->
             </div>
         </form>
-        <a href="{{ route('register') }}" class="text-center mt-3">I already have a membership</a>
+        <a href="{{ route('register') }}" class="text-center mt-3">Register</a>
     </div>
     <!-- /.form-box -->
 </div><!-- /.card -->

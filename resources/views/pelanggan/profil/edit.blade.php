@@ -1,5 +1,6 @@
 @extends('layouts.myview')
 
 @section('content')
-@livewire('profile.index')
+{{-- asfmjaos --}}
+@livewire('profile.update')
 @endsection

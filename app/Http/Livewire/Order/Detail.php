@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Order;
 use App\Models\DetailPemesanan;
 use App\Models\Menu;
 use App\Models\Pemesanan;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -21,7 +22,7 @@ class Detail extends Component
     {
         $target = Pemesanan::findOrFail($id);
         $cart   = DetailPemesanan::where('transaksi_id', $id)->get();
-        // dd($cart);
+        // dd($target->nama);
         if ($target) {
             $this->pemesananId  = $target->id;
             $this->no_transaksi = $target->no_transaksi;
@@ -36,7 +37,11 @@ class Detail extends Component
 
     public function back()
     {
-        return redirect()->route('pemesanan.index');
+        if (Auth::user()->role_id == 3) {
+            return redirect()->route('pesan.history');
+        } else {
+            return redirect()->route('pemesanan.index');
+        }
     }
 
     public function proses($id)

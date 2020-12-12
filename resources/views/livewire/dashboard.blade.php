@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    {{dd(Auth::user()->role->nama)}}
+    {{-- {{dd(Auth::user()->role->nama)}} --}}
     @if (Auth::user()->role->nama == 'pelanggan')
     masuk
     <div class="row">

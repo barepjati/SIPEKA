@@ -37,12 +37,9 @@
     <div class="col-6 col-md-6 col-sm-12">
         <x-card>
             <x-slot name="header">Invoice</x-slot>
-            <x-input.input placeholder="{{Auth::user()->karyawan->nama}}" readonly>
-                <x-slot name="label">Nama Karyawan</x-slot>
-            </x-input.input>
             @if ($pemesananId)
             <x-input.input wire:model="nama" placeholder="{{$nama}}" readonly>
-                <x-slot name="label">Nama Karyawan</x-slot>
+                <x-slot name="label">Nama</x-slot>
             </x-input.input>
             @else
             <form wire:submit.prevent="pemesanan" method="post">
@@ -54,6 +51,15 @@
                     Tambah Data
                 </x-button.button>
             </form>
+            @endif
+            @if (Auth::user()->role_id == 3)
+            <x-input.input wire:model="status" placeholder="{{$status}}" readonly>
+                <x-slot name="label">Status</x-slot>
+            </x-input.input>
+            @else
+            <x-input.input placeholder="{{Auth::user()->karyawan->nama}}" readonly>
+                <x-slot name="label">Nama Karyawan</x-slot>
+            </x-input.input>
             @endif
             <div class="row">
                 <div class="col-md-12">
@@ -114,6 +120,7 @@
                         </table>
                     </div>
                     <x-button.button wire:click="back" color="danger" class="mb-2">Kembali</x-button.button>
+                    @if (Auth::user()->role_id != 3)
                     @if ($status == 'pending')
                     <x-button.button wire:click="proses({{$pemesananId}})" color="primary" class="mb-2 float-right">
                         Proses Pesanan
@@ -123,16 +130,7 @@
                         Pesanan
                     </x-button.button>
                     @endif
-                    {{-- @if ($pemesananId)
-                    <x-button.button wire:click="create" color="danger" class="mb-2">
-                        <x-icon type="cros" />
-                        Batalkan Transaksi
-                    </x-button.button>
-                    <x-button.button wire:click="create" color="success" class="float-right mb-2">
-                        <x-icon type="plus" />
-                        Cetak Invoice
-                    </x-button.button>
-                    @endif --}}
+                    @endif
                 </div>
             </div>
         </x-card>

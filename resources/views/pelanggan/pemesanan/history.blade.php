@@ -1,5 +1,5 @@
 @extends('layouts.myview')
 
 @section('content')
-@livewire('profile.index')
+@livewire('order.history')
 @endsection

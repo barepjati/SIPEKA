@@ -22,6 +22,8 @@ use App\Http\Controllers\Manager\LaporanKinerjaController  as Kinerja;
 use App\Http\Controllers\Manager\LaporanPenjualanController  as Penjualan;
 use App\Http\Controllers\Manager\PemesananController  as Pemesanan;
 
+use App\Http\Controllers\Pelanggan\PemesananController as Pesan;
+use App\Http\Controllers\Pelanggan\ProfilController;
 use App\Http\Livewire\Order\Cart;
 use App\Http\Livewire\Order\Detail;
 use App\Http\Livewire\Order\Invoice;
@@ -87,5 +89,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', DashboardController::class)->name('pelanggan.dashboard');
 
         Route::get('/cart', Cart::class)->name('pesan.create');
+        Route::get('/history', [Pesan::class, 'history'])->name('pesan.history');
+        Route::get('/pesanan/{id}', Detail::class)->name('pesan.detail');
+
+        Route::get('/profil', [ProfilController::class, 'index'])->name('pelanggan.profil');
+        Route::get('/profil/edit', [ProfilController::class, 'edit'])->name('pelanggan.edit');
+        Route::get('/alamat/edit', [ProfilController::class, 'alamat'])->name('pelanggan.alamat');
     });
 });

@@ -68,4 +68,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Models\Pemesanan');
     }
+
+    public function alamat()
+    {
+        return $this->hasMany('App\Models\Alamat');
+    }
 }
