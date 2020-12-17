@@ -16,6 +16,7 @@ class Pemesanan extends Model
         'nama',
         'status',
         'total',
+        'meja_id',
         'user_id',
         'pelanggan_id',
         'alamat_id'
@@ -39,5 +40,10 @@ class Pemesanan extends Model
     public function alamat()
     {
         return $this->belongsTo('App\Models\Alamat');
+    }
+
+    public function meja()
+    {
+        return $this->belongsTo('App\Models\Meja');
     }
 }

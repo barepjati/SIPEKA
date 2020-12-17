@@ -55,6 +55,27 @@
                 <x-slot name="label">Alamat</x-slot>
             </x-input.textarea>
             @endif
+            {{-- {{dd($mejaId)}} --}}
+            @if ($mejaId == null)
+            <form wire:submit.prevent="tambahMeja" method="post">
+                <x-input.select2 data="$data" select-type="label" id="data" name="data">
+                    <x-slot name="label">Nomor Meja</x-slot>
+                    <x-slot name="opt">
+                        @foreach ($dataMeja as $k)
+                        <option value="{{$k->id}}">MJ{{$k->no_meja}}</option>
+                        @endforeach
+                    </x-slot>
+                </x-input.select2>
+                <x-button.button type="submit" color="primary" class="float-right mb-2">
+                    <x-icon type="plus" />
+                    Tambah Data
+                </x-button.button>
+            </form>
+            @else
+            <x-input.input value="MJ{{$nomor->no_meja}}" placeholder="{{$nomor}}" readonly>
+                <x-slot name="label">Nomor Meja</x-slot>
+            </x-input.input>
+            @endif
             @else
             <x-slot name="header">Invoice</x-slot>
             <x-input.input value="{{Auth::user()->karyawan->nama}}" placeholder="{{Auth::user()->karyawan->nama}}"
@@ -142,6 +163,15 @@
                                     <td class="emptyrow">No Data</td>
                                     <td class="emptyrow"></td>
                                     <td class="emptyrow"></td>
+                                </tr>
+                                @endif
+                                @if ($harga_reservasi)
+                                <tr>
+                                    <td class="highrow"></td>
+                                    <td class="highrow"></td>
+                                    <td class="highrow text-center"><strong>Biaya Reservasi</strong></td>
+                                    <td class="highrow text-right">Rp. {{number_format($harga_reservasi)}}</td>
+                                    <td class="highrow emptyrow"></td>
                                 </tr>
                                 @endif
                                 <tr>

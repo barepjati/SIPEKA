@@ -61,9 +61,18 @@
                 <x-slot name="label">Nama Karyawan</x-slot>
             </x-input.input>
             @if ($status == 'diproses')
-            <x-input.textarea wire:model="alamat" value="{{$alamat}}" placeholder="{{$alamat}}" readonly>
-                <x-slot name="label">Alamat</x-slot>
-            </x-input.textarea>
+            <form wire:submit.prevent="tambahOngkir({{$pemesananId}})" method="post">
+                <x-input.textarea wire:model="alamat" value="{{$alamat}}" placeholder="{{$alamat}}" readonly>
+                    <x-slot name="label">Alamat</x-slot>
+                </x-input.textarea>
+                <x-input.input wire:model="ongkir">
+                    <x-slot name="label">Ongkir</x-slot>
+                </x-input.input>
+                {{-- <x-button.button type="submit" color="primary" class="float-right mb-2">
+                    <x-icon type="plus" />
+                    Tambah Ongkos Kirim
+                </x-button.button> --}}
+            </form>
             @endif
             @endif
             <div class="row">
@@ -114,11 +123,26 @@
                                     <td class="emptyrow"></td>
                                 </tr>
                                 @endif
+                                @if (is_numeric($ongkir))
+                                <tr>
+                                    <td class="highrow"></td>
+                                    <td class="highrow"></td>
+                                    <td class="highrow text-center"><strong>Ongkos Kirim</strong></td>
+                                    <td class="highrow text-right">Rp.
+                                        {{ isset($ongkir) ? number_format($ongkir) : '0' }}
+                                    </td>
+                                </tr>
+                                @endif
                                 <tr>
                                     <td class="highrow"></td>
                                     <td class="highrow"></td>
                                     <td class="highrow text-center"><strong>Total</strong></td>
-                                    <td class="highrow text-right">Rp. {{ isset($total) ? number_format($total) : '0' }}
+                                    <td class="highrow text-right">Rp.
+                                        @if (is_numeric($ongkir))
+                                        {{ isset($total) ? number_format($total + $ongkir) : '0' }}
+                                        @else
+                                        {{ isset($total) ? number_format($total) : '0' }}
+                                        @endif
                                     </td>
                                 </tr>
                             </tbody>

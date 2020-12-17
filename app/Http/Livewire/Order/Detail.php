@@ -14,7 +14,7 @@ class Detail extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart, $uang, $kembali, $alamat;
+    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart, $uang, $kembali, $alamat, $ongkir;
 
     /**
      * mount or construct function
@@ -23,7 +23,7 @@ class Detail extends Component
     {
         $target = Pemesanan::findOrFail($id);
         $cart   = DetailPemesanan::where('transaksi_id', $id)->get();
-        // dd($target->alamat->alamat);
+        // dd($target->alamat);
         if ($target) {
             $this->pemesananId  = $target->id;
             $this->no_transaksi = $target->no_transaksi;
@@ -33,8 +33,26 @@ class Detail extends Component
             $this->cart         = $cart;
             $this->uang         = 0;
             $this->kembali      = 0;
-            $this->alamat       = $target->alamat->alamat;
+            if ($target->alamat) {
+                $this->alamat       = $target->alamat->alamat;
+            }
         }
+    }
+
+    protected $rules = [
+        // 'ongkir' => 'required|min:2',
+        'ongkir' => 'required|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
+    ];
+
+    protected $messages = [
+        'ongkir.required' => 'Field Ongkos Kirim tidak boleh kosong.',
+        'ongkir.numeric' => 'Field Ongkos Kirim hanya format angka.',
+        'ongkir.min'     => 'Minimal Ongkos Kirim 0 atau gratis.'
+    ];
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
     }
 
     public function back()
@@ -58,15 +76,35 @@ class Detail extends Component
         // return redirect()->back();
     }
 
+    // public function tambahOngkir($id)
+    // {
+
+    //     $data = Pemesanan::find($id);
+    //     $data->update([
+    //         'status'    => 'diproses',
+    //         'user_id'   => \Auth::user()->id,
+    //         'ongkir'    => $this->ongkir
+    //     ]);
+    //     $this->status = $data->status;
+    //     $this->emit('alert', ['type'  => 'success', 'message' =>  'Ongkir sudah Ditambah.']);
+    // }
+
     public function kirim($id)
     {
-        $data = Pemesanan::find($id);
-        $data->update([
-            'status'    => 'dikirim',
-            'user_id'   => \Auth::user()->id
-        ]);
-        $this->status = $data->status;
-        $this->emit('alert', ['type'  => 'success', 'message' =>  'Pesanan diupdate ke dikirim.']);
+        $this->validate();
+        if ($this->ongkir) {
+            $data = Pemesanan::find($id);
+            $data->update([
+                'status'    => 'dikirim',
+                'user_id'   => \Auth::user()->id,
+                'ongkir'    => $this->ongkir,
+                'total'     => $this->ongkir + $this->total
+            ]);
+            $this->status = $data->status;
+            $this->emit('alert', ['type'  => 'success', 'message' =>  'Pesanan diupdate ke dikirim.']);
+        } else {
+            $this->emit('alert', ['type'  => 'error', 'message' =>  'Masukan ongkir.']);
+        }
     }
 
     public function render()

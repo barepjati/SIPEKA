@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Order;
+namespace App\Http\Livewire\Reservasi;
 
 use App\Models\Alamat;
 use App\Models\DetailPemesanan;
@@ -10,41 +10,25 @@ use App\Models\Pemesanan;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Cart extends Component
+class Create extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart, $uang, $kembali, $alamat, $dataMeja, $data, $nomor;
+    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart, $uang, $kembali, $alamat, $dataMeja, $data, $nomor, $harga_reservasi, $mejaId, $res;
 
     public function mount()
     {
         $this->dataMeja = Meja::all();
         if (\Auth::user()->role_id == 3) {
             $this->alamat = Alamat::where('user_id', \Auth::user()->id)->first();
-            // dd($this->alamat->alamat);
+            $this->nama = auth()->user()->pelanggan->nama;
         } else {
             $this->alamat == null;
         }
     }
 
-    protected $rules = [
-        'nama' => 'required|min:2',
-    ];
-
-    protected $messages = [
-        'nama.required' => 'Field Nama tidak boleh kosong.',
-        'nama.min'      => 'Field Nama Minimal 2 karakter.',
-    ];
-
-    public function updated($propertyName)
+    public function tambahMeja()
     {
-        $this->validateOnly($propertyName);
-    }
-
-    public function pemesanan()
-    {
-        $this->validate();
-        // dd($this->data);
         if ($this->data) {
             $this->nomor = Meja::find($this->data);
             $pemesanan = Pemesanan::create([
@@ -53,16 +37,22 @@ class Cart extends Component
                 'total' => 0,
                 'user_id' => \Auth::user()->id,
                 'meja_id' => $this->data,
+                'alamat_id' => $this->alamat->id,
+                'pelanggan_id' => auth()->user()->pelanggan->id,
+                'status' => 'diterima'
             ]);
             $this->pemesananId = $pemesanan->id;
             $this->no_transaksi = $pemesanan->no_transaksi;
             $this->status = $pemesanan->status;
-            $this->namaPemesan = $pemesanan->nama;
-            $this->total = $pemesanan->total;
+            // $this->namaPemesan = $pemesanan->nama;
+            $this->harga_reservasi = $this->nomor->harga;
+            $this->total = $pemesanan->total + $this->nomor->harga;
+            $this->mejaId = $this->nomor->id;
+            $this->res = true;
 
             $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $this->nama . ' Berhasil Ditambah.']);
         } else {
-            $this->emit('alert', ['type'  => 'success', 'message' =>  'Pilih Meja Dahulu.']);
+            $this->emit('alert', ['type'  => 'error', 'message' =>  'Pilih Nomor Meja.']);
         }
     }
 
@@ -75,30 +65,17 @@ class Cart extends Component
 
         if (\Auth::user()->role->id == 3) {
             $this->nama = \Auth::user()->pelanggan->nama;
-            if ($this->pemesananId == null) {
-                $pemesanan = Pemesanan::create([
-                    'nama' => $this->nama,
-                    'no_transaksi' => (string) \Str::uuid(),
-                    'total' => 0,
-                    'status' => 'pending'
-                ]);
-                $this->pemesananId = $pemesanan->id;
-                DetailPemesanan::create([
-                    'transaksi_id'  => $pemesanan->id,
-                    'menu_id'       => $id,
-                    'kuantitas'     => 1,
-                    'harga'         => $menu->harga
-                ]);
-                $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
-                $this->total = $this->total + $menu->harga;
-                $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $menu->nama . ' Berhasil Ditambah.']);
-            } else {
-                if ($ada) {
-                    $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
-                    $this->emit('alert', ['type'  => 'error', 'message' =>  'Data ' . $menu->nama . ' Sudah Ditambahkan.']);
-                } else {
+            if ($this->res == true) {
+                if ($this->pemesananId == null) {
+                    $pemesanan = Pemesanan::create([
+                        'nama' => $this->nama,
+                        'no_transaksi' => (string) \Str::uuid(),
+                        'total' => 0,
+                        'status' => 'pending'
+                    ]);
+                    $this->pemesananId = $pemesanan->id;
                     DetailPemesanan::create([
-                        'transaksi_id'  => $this->pemesananId,
+                        'transaksi_id'  => $pemesanan->id,
                         'menu_id'       => $id,
                         'kuantitas'     => 1,
                         'harga'         => $menu->harga
@@ -106,7 +83,24 @@ class Cart extends Component
                     $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
                     $this->total = $this->total + $menu->harga;
                     $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $menu->nama . ' Berhasil Ditambah.']);
+                } else {
+                    if ($ada) {
+                        $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
+                        $this->emit('alert', ['type'  => 'error', 'message' =>  'Data ' . $menu->nama . ' Sudah Ditambahkan.']);
+                    } else {
+                        DetailPemesanan::create([
+                            'transaksi_id'  => $this->pemesananId,
+                            'menu_id'       => $id,
+                            'kuantitas'     => 1,
+                            'harga'         => $menu->harga
+                        ]);
+                        $this->cart = DetailPemesanan::where('transaksi_id', $this->pemesananId)->get();
+                        $this->total = $this->total + $menu->harga;
+                        $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $menu->nama . ' Berhasil Ditambah.']);
+                    }
                 }
+            } else {
+                $this->emit('alert', ['type'  => 'error', 'message' =>  'Silakan tambah Nomor Meja.']);
             }
         } else {
             if ($this->pemesananId) {
@@ -207,13 +201,23 @@ class Cart extends Component
             if (\Auth::user()->role->nama == "pelanggan") {
                 if (Alamat::where('user_id', \Auth::user()->id)->first()) {
                     // dd($this->alamat->alamat);
-                    Pemesanan::where('id', $this->pemesananId)->update([
-                        'status'        => 'pending',
-                        'total'         => $this->total,
-                        'pelanggan_id'  => \Auth::user()->pelanggan->id,
-                        'alamat_id'     => $this->alamat->id,
-                    ]);
-                    session()->flash('message', 'Pesanan sudah diinputkan harap menunnggu.');
+                    if ($this->res == true) {
+                        Pemesanan::where('id', $this->pemesananId)->update([
+                            'status'        => 'diterima',
+                            'total'         => $this->total,
+                            'pelanggan_id'  => \Auth::user()->pelanggan->id,
+                            'alamat_id'     => $this->alamat->id,
+                        ]);
+                        session()->flash('message', 'Pesanan sudah diinputkan.');
+                    } else {
+                        Pemesanan::where('id', $this->pemesananId)->update([
+                            'status'        => 'pending',
+                            'total'         => $this->total,
+                            'pelanggan_id'  => \Auth::user()->pelanggan->id,
+                            'alamat_id'     => $this->alamat->id,
+                        ]);
+                        session()->flash('message', 'Pesanan sudah diinputkan mohon menunggu.');
+                    }
                     return redirect(route('pelanggan.dashboard'));
                 } else {
                     $this->emit('alert', ['type'  => 'error', 'message' =>  'Alamat Kosong Silakan tambah Alamat di Menu alamat']);
@@ -242,15 +246,10 @@ class Cart extends Component
 
     public function render()
     {
-        return view('livewire.order.cart', [
+        return view('livewire.reservasi.create', [
             'menu'  => Menu::where('nama', 'like', '%' . $this->cariMenu . '%')
                 ->orWhere('harga', 'like', '%' . $this->cariMenu . '%')
                 ->paginate(10),
-        ])
-            ->layout('layouts.myview', [
-                'title'     => 'pemesanan',
-                'subtitle'  => 'tambah',
-                'active'    => 'pemesanan.index'
-            ]);
+        ]);
     }
 }

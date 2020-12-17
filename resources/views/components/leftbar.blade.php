@@ -19,7 +19,7 @@
                 </li>
                 <li class="nav-header"></li>
                 <li
-                    class="nav-item has-treeview {{ $active == 'menu.index' || $active == 'kategori.index' ? 'menu-open' : '' }}">
+                    class="nav-item has-treeview {{ $active == 'menu.index' || $active == 'meja.index' ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <x-icon class="nav-icon fas fa-" type="bars" />
                         <p>
@@ -29,17 +29,17 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <x-icon class="nav-icon fas fa-" type="circle" />
-                                {{-- <i class="far fa-circle nav-icon"></i> --}}
-                                <p>Kategori</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{ route('menuResto.index') }}"
                                 class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
                                 <x-icon class="nav-icon fas fa-" type="circle" />
                                 <p>Menu</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('meja.index') }}"
+                                class="nav-link {{ $active == 'meja.index' ? 'active' : '' }}">
+                                <x-icon class="nav-icon fas fa-" type="circle" />
+                                <p>Data Meja</p>
                             </a>
                         </li>
                     </ul>
@@ -115,30 +115,13 @@
                         </p>
                     </a>
                 </li>
-                <li
-                    class="nav-item has-treeview {{ $active == 'menu.index' || $active == 'kategori.index' ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link">
-                        <x-icon class="nav-icon fas fa-" type="bars" />
+                <li class="nav-item">
+                    <a href="{{ route('reservasi.index') }}" class="nav-link">
+                        <x-icon class="nav-icon fas fa-" type="book" />
                         <p>
                             Reservasi
-                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <x-icon class="nav-icon fas fa-" type="circle" />
-                                {{-- <i class="far fa-circle nav-icon"></i> --}}
-                                <p>Data Meja</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
-                                <x-icon class="nav-icon fas fa-" type="circle" />
-                                <p>Reservasi Meja</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="nav-header"></li>
                 <li class="nav-item">
@@ -161,18 +144,35 @@
                     </a>
                 </li>
                 <li class="nav-header"></li>
-                <li class="nav-item">
-                    <a href="{{ route('pesan.create') }}"
-                        class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
+                <li
+                    class="nav-item has-treeview {{ $active == 'reservasi' || $active == 'menu.index' ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
                         <x-icon class="nav-icon fas fa-" type="bars" />
                         <p>
                             Pesan
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('pesan.create') }}"
+                                class="nav-link {{ $active == 'pemesanan' ? 'active' : '' }}">
+                                <x-icon class="nav-icon fas fa-" type="circle" />
+                                <p>Order Online</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('pelanggan.reservasi') }}"
+                                class="nav-link {{ $active == 'reservasi' ? 'active' : '' }}">
+                                <x-icon class="nav-icon fas fa-" type="circle" />
+                                <p>Reservasi Meja</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('pesan.history') }}"
-                        class="nav-link {{ $active == 'menu.index' ? 'active' : '' }}">
+                        class="nav-link {{ $active == 'pemesanan' ? 'active' : '' }}">
                         <x-icon class="nav-icon fas fa-" type="bars" />
                         <p>
                             History Pemesanan
