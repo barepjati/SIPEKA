@@ -14,7 +14,27 @@ class Create extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart, $uang, $kembali, $alamat, $dataMeja, $data, $nomor, $harga_reservasi, $mejaId, $res;
+    public $cariMenu, $pemesananId, $no_transaksi, $status, $nama, $total, $cart, $uang, $kembali, $alamat, $dataMeja, $data, $nomor, $harga_reservasi, $mejaId, $res, $tanggal, $jumlah, $waktu;
+
+    protected $rules = [
+        'tanggal'   => 'required|',
+        'waktu'     => 'required',
+        'jumlah'    => 'required|numeric|min:1|regex:/^\d+(\.\d{1,2})?$/',
+    ];
+
+    protected $messages = [
+        'tanggal.required' => 'Field tanggal tidak boleh kosong.',
+        'tanggal.unique' => 'tanggal Telah digunakan pada Menu yang lain.',
+        'jumlah.required' => 'Field jumlah tidak boleh kosong.',
+        'jumlah.numeric' => 'Field jumlah hanya format angka.',
+        'jumlah.min' => 'Minimal jumlah 0 atau gratis.',
+    ];
+
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
 
     public function mount()
     {
@@ -29,30 +49,39 @@ class Create extends Component
 
     public function tambahMeja()
     {
+        // dd($this->tanggal, $this->waktu, $this->jumlah);
+        $this->validate();
         if ($this->data) {
-            $this->nomor = Meja::find($this->data);
-            $pemesanan = Pemesanan::create([
-                'nama' => $this->nama,
-                'no_transaksi' => (string) \Str::uuid(),
-                'total' => 0,
-                'user_id' => \Auth::user()->id,
-                'meja_id' => $this->data,
-                'alamat_id' => $this->alamat->id,
-                'pelanggan_id' => auth()->user()->pelanggan->id,
-                'status' => 'diterima'
-            ]);
-            $this->pemesananId = $pemesanan->id;
-            $this->no_transaksi = $pemesanan->no_transaksi;
-            $this->status = $pemesanan->status;
-            // $this->namaPemesan = $pemesanan->nama;
-            $this->harga_reservasi = $this->nomor->harga;
-            $this->total = $pemesanan->total + $this->nomor->harga;
-            $this->mejaId = $this->nomor->id;
-            $this->res = true;
+            if ($this->tanggal || $this->waktu) {
+                $this->nomor = Meja::find($this->data);
+                $pemesanan = Pemesanan::create([
+                    'nama' => $this->nama,
+                    'no_transaksi' => (string) \Str::uuid(),
+                    'total' => 0,
+                    'user_id' => \Auth::user()->id,
+                    'meja_id' => $this->data,
+                    'alamat_id' => $this->alamat->id,
+                    'pelanggan_id' => auth()->user()->pelanggan->id,
+                    'status' => 'diterima',
+                    'tanggal'  => $this->tanggal,
+                    'waktu' => $this->waktu,
+                    'jumlah' => $this->jumlah
+                ]);
+                $this->pemesananId = $pemesanan->id;
+                $this->no_transaksi = $pemesanan->no_transaksi;
+                $this->status = $pemesanan->status;
+                // $this->namaPemesan = $pemesanan->nama;
+                $this->harga_reservasi = $this->nomor->harga;
+                $this->total = $pemesanan->total + $this->nomor->harga;
+                $this->mejaId = $this->nomor->id;
+                $this->res = true;
 
-            $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $this->nama . ' Berhasil Ditambah.']);
+                $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $this->nama . ' Berhasil Ditambah.']);
+            } else {
+                $this->emit('alert', ['type'  => 'error', 'message' =>  'Pilih tanggal pemesanan.']);
+            }
         } else {
-            $this->emit('alert', ['type'  => 'error', 'message' =>  'Pilih Nomor Meja.']);
+            $this->emit('alert', ['type'  => 'error', 'message' =>  'Nomor Meja atau jumlah orang harap diisi.']);
         }
     }
 

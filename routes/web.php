@@ -94,6 +94,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         //reservasi
         Route::get('/reservasi', ReservasiController::class)->name('reservasi.index');
+        Route::get('/reservasi/detail/{id}', [ReservasiController::class, 'detail'])->name('reservasi.detail');
     });
 
     Route::group(['prefix' => 'pelanggan', 'middleware' => ['role:pelanggan']], function () {
@@ -107,6 +108,7 @@ Route::group(['middleware' => ['auth']], function () {
         //Reservasi
         Route::get('/reservasi', PelangganReservasiController::class)->name('pelanggan.reservasi');
         Route::get('/reservasi/create', [PelangganReservasiController::class, 'create'])->name('pelanggan.reservasi.create');
+        Route::get('/reservasi/detail/{id}', [PelangganReservasiController::class, 'detail'])->name('pelanggan.reservasi.detail');
 
         // Profil
         Route::get('/profil', [ProfilController::class, 'index'])->name('pelanggan.profil');

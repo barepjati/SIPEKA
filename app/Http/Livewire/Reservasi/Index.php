@@ -17,7 +17,6 @@ class Index extends Component
         $this->detail = DetailPemesanan::all();
         if (auth()->user()->role_id == 3) {
             $this->data = Pemesanan::where('pelanggan_id', auth()->user()->role_id == 3)->whereNotNull('meja_id')->get();
-            // dd($this->data->meja);
         } else {
             $this->data = Pemesanan::whereNotNull('pelanggan_id')->whereNotNull('meja_id')->get();
         }
@@ -26,6 +25,16 @@ class Index extends Component
     public function create()
     {
         return redirect()->route('pelanggan.reservasi.create');
+    }
+
+    public function detail($id)
+    {
+        if (auth()->user()->role_id == 3) {
+            return redirect()->route('pelanggan.reservasi.detail', $id);
+        } elseif (auth()->user()->role_id == 2) {
+            // dd('masuk');
+            return redirect()->route('reservasi.detail', $id);
+        }
     }
 
     public function render()

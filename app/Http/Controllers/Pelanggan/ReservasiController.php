@@ -24,4 +24,14 @@ class ReservasiController extends Controller
             'active'    => 'reservasi'
         ]);
     }
+
+    public function detail($id)
+    {
+        return view('pelanggan.reservasi.detail', [
+            'title'     => 'reservasi',
+            'subtitle'  => 'detail',
+            'active'    => 'reservasi',
+            'id'        => $id
+        ]);
+    }
 }

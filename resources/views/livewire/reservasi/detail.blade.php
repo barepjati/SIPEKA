@@ -51,7 +51,7 @@
                 <x-slot name="label">Nama</x-slot>
             </x-input.input>
             @if ($alamat)
-            <x-input.textarea value="{{$alamat->alamat}}" placeholder="{{$alamat->alamat}}" readonly>
+            <x-input.textarea value="{{$alamat}}" placeholder="{{$alamat}}" readonly>
                 <x-slot name="label">Alamat</x-slot>
             </x-input.textarea>
             @endif
@@ -78,7 +78,7 @@
                     </x-slot>
                 </x-input.select2>
                 <x-input.time-picker name="waktu" id="waktu">
-                    {{-- id="timepicker" data-target-input="nearest" --}}
+                    id="timepicker" data-target-input="nearest"
                     <x-slot name="label">Jam Reservasi</x-slot>
                     <x-slot name="error">
                         @error('waktu')
@@ -98,7 +98,7 @@
             <x-input.input wire:model="jumlah" name="jumlah" readonly>
                 <x-slot name="label">Jumlah Orang</x-slot>
             </x-input.input>
-            <x-input.input value="MJ{{$nomor->no_meja}}" placeholder="{{$nomor}}" readonly>
+            <x-input.input value="MJ{{$no_meja}}" placeholder="{{$nomor}}" readonly>
                 <x-slot name="label">Nomor Meja</x-slot>
             </x-input.input>
             <x-input.input wire:model="waktu" name="jumlah" readonly>
@@ -115,8 +115,14 @@
             <x-input.input wire:model="nama" placeholder="{{$nama}}" readonly>
                 <x-slot name="label">Nama Pelanggan</x-slot>
             </x-input.input>
-            <x-input.input wire:model="nomor" placeholder="MJ{{$nomor->no_meja}}" readonly>
+            <x-input.input wire:model="nomor" placeholder="MJ{{$no_meja}}" readonly>
                 <x-slot name="label">Nomor Meja</x-slot>
+            </x-input.input>
+            <x-input.input wire:model="tanggal" placeholder="{{$tanggal}}" readonly>
+                <x-slot name="label">Tanggal Reservasi</x-slot>
+            </x-input.input>
+            <x-input.input wire:model="waktu" placeholder="{{$waktu}}" readonly>
+                <x-slot name="label">waktu Reservasi</x-slot>
             </x-input.input>
             @else
             <form wire:submit.prevent="pemesanan" method="post">
@@ -255,14 +261,12 @@
                         Batalkan Transaksi
                     </x-button.button>
                     @endif
+                    @if (Auth::user()->role->nama == "karyawan")
                     <x-button.button wire:click="cetakStruk({{$pemesananId}})" color="success" class="float-right mb-2">
                         <x-icon type="plus" />
-                        @if (Auth::user()->role->nama == "pelanggan")
-                        Buat Pesanan
-                        @else
                         Cetak Struk
-                        @endif
                     </x-button.button>
+                    @endif
                     @endif
                 </div>
             </div>
@@ -318,15 +322,8 @@
         @endforeach
     @endif
 
-    $("#waktu").timepicker({
-        autoclose: true,
-        format: 24
-    }).on('change', function (e) {
-        @this.set('waktu', e.target.value);
-    });
-
-    // $('#waktu').on('change', function (e) {
-    //     @this.set('waktu', e.target.value);
+    // $(".link-button").click(function () {
+    //     window.location.href = $(this).data('href');
     // });
 </script>
 @endpush

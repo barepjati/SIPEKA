@@ -17,7 +17,7 @@ class Invoice extends Component
     {
         $target = Pemesanan::findOrFail($id);
         $cart   = DetailPemesanan::where('transaksi_id', $id)->get();
-
+        // dd($target->user->karyawan);
         if ($target) {
             $this->pemesananId  = $target->id;
             $this->no_transaksi = $target->no_transaksi;

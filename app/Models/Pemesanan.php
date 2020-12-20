@@ -19,7 +19,10 @@ class Pemesanan extends Model
         'meja_id',
         'user_id',
         'pelanggan_id',
-        'alamat_id'
+        'alamat_id',
+        'waktu',
+        'jumlah',
+        'tanggal'
     ];
 
     public function user()

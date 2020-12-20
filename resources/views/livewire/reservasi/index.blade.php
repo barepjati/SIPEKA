@@ -26,9 +26,8 @@
             <td>{{count($detail->where('transaksi_id', $m->id))}}</td>
             <td>Rp. {{number_format($m->meja->harga)}}</td>
             <td>{{$m->total}}</td>
-            {{-- @if (Auth::user()->role->nama == 'pelanggan') --}}
             <td>
-                <x-button.button wire:click="edit({{$m->id}})" color="primary" class="btn-sm">
+                <x-button.button wire:click="detail({{$m->id}})" color="primary" class="btn-sm">
                     <x-icon type="pencil-alt" />
                     detail
                 </x-button.button>

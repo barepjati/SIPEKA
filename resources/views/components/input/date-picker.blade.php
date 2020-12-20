@@ -1,6 +1,13 @@
-<div class="form-group">
-    {{ isset($label) ? $label : null }}
+<div wire:ignore class="form-group">
+    <x-input.label for="{{$label}}">{{ucfirst($label)}}</x-input.label>
     <input {{ $attributes->merge(['class' => 'form-control']) }}>
+    @if (isset($error))
+    {{$error}}
+    @else
+    @error(strtolower(substr($label, 0, strrpos($label, ' ') ? strrpos($label, ' ') : strlen($label))))
+    <span class="text-danger">{{$message}}</span>
+    @enderror
+    @endif
 </div>
 
 @push('css')
@@ -31,6 +38,14 @@
 	});
     $('#year').on('change', function(){
         @this.year = $(this).val()
+    });
+
+    $("#tanggal").datepicker({
+        autoclose: true,
+    });
+
+    $('#tanggal').on('change', function(){
+        @this.tanggal = $(this).val()
     });
 </script>
 @endpush

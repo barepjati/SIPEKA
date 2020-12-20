@@ -18,9 +18,12 @@ class CreateTransaksiTable extends Migration
             $table->uuid('no_transaksi')->nullable();
             $table->string('status')->default('belum dibayar')->comment('diterima', 'belum dibayar, pending, diproses, dikirim, selesai');
             $table->string('nama');
+            $table->string('jumlah')->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade')->nullable();
+            $table->foreignId('meja_id')->nullable()->constrained('meja')->onUpdate('cascade')->onDelete('cascade');
             //Reservasi
-            $table->foreignId('meja_id')->nullable()->constrained('meja')->onUpdate('cascade')->onDelete('cascade')->nullable();
+            $table->date('tanggal')->nullable();
+            $table->time('waktu')->nullable();
             // khusus Order Online
             $table->foreignId('pelanggan_id')->nullable()->constrained('pelanggan')->onUpdate('cascade')->onDelete('cascade')->nullable();
             $table->foreignId('alamat_id')->nullable()->constrained('alamat')->onUpdate('cascade')->onDelete('cascade')->nullable();
