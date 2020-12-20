@@ -34,7 +34,7 @@ class Detail extends Component
             $this->waktu        = $target->waktu;
             $this->tanggal      = $target->tanggal;
             $this->harga_reservasi = $target->meja->harga;
-            // dd($this->harga_reservasi);
+            // dd($this->status);
             if ($target->alamat) {
                 $this->alamat       = $target->alamat->alamat;
             }
@@ -205,6 +205,11 @@ class Detail extends Component
         } else {
             $this->emit('alert', ['type'  => 'error', 'message' =>  'Data Kosong.']);
         }
+    }
+
+    public function kembali()
+    {
+        return redirect()->route('reservasi.index');
     }
 
     public function render()

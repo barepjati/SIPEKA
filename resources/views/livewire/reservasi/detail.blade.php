@@ -28,10 +28,17 @@
                                 <x-icon type="plus" />
                             </x-button.button>
                             @else
+                            @if ($status == 'selesai')
+                            <x-button.button wire:click="tambahCart({{$m->id}})" color="primary"
+                                class="btn-sm float-right" disabled>
+                                <x-icon type="plus" />
+                            </x-button.button>
+                            @else
                             <x-button.button wire:click="tambahCart({{$m->id}})" color="primary"
                                 class="btn-sm float-right">
                                 <x-icon type="plus" />
                             </x-button.button>
+                            @endif
                             @endif
                         </td>
                         <?php $no++ ?>
@@ -185,9 +192,16 @@
                                     </td>
                                     <td class="text-right">Rp. {{number_format($c->harga)}}</td>
                                     <td class="text-right">
+                                        @if ($status == 'selesai')
+                                        <x-button.button wire:click="destroy({{$c->id}})" color="danger" class="btn-sm"
+                                            disabled>
+                                            <x-icon type="trash" />
+                                        </x-button.button>
+                                        @else
                                         <x-button.button wire:click="destroy({{$c->id}})" color="danger" class="btn-sm">
                                             <x-icon type="trash" />
                                         </x-button.button>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
@@ -218,6 +232,8 @@
                                     <td class="highrow emptyrow"></td>
                                 </tr>
                                 @if (Auth::user()->role->nama == "karyawan")
+                                @if ($status == 'selesai')
+                                @else
                                 <tr>
                                     <td class="emptyrow"></td>
                                     <td class="emptyrow"></td>
@@ -248,24 +264,25 @@
                                     <td class="emptyrow"></td>
                                 </tr>
                                 @endif
+                                @endif
                             </tbody>
                         </table>
                     </div>
                     @if ($pemesananId)
-                    @if (Auth::user()->role->nama == "pelanggan")
-                    <x-button.button wire:click="batal" color="danger" class="mb-2">
-                        Batalkan Transaksi
-                    </x-button.button>
-                    @else
-                    <x-button.button wire:click="batal" color="danger" class="mb-2">
-                        Batalkan Transaksi
-                    </x-button.button>
-                    @endif
                     @if (Auth::user()->role->nama == "karyawan")
+                    @if ($status == 'diterima')
                     <x-button.button wire:click="cetakStruk({{$pemesananId}})" color="success" class="float-right mb-2">
                         <x-icon type="plus" />
                         Cetak Struk
                     </x-button.button>
+                    <x-button.button wire:click="batal" color="danger" class="mb-2">
+                        Batalkan Transaksi
+                    </x-button.button>
+                    @else
+                    <x-button.button wire:click="kembali" color="danger" class="mb-2">
+                        kembali
+                    </x-button.button>
+                    @endif
                     @endif
                     @endif
                 </div>
