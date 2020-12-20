@@ -14,6 +14,7 @@ class Meja extends Model
     protected $fillable = [
         'no_meja',
         'harga',
+        'status'
     ];
 
     public function transaksi()

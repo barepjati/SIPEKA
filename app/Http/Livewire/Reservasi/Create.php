@@ -38,7 +38,8 @@ class Create extends Component
 
     public function mount()
     {
-        $this->dataMeja = Meja::all();
+        $this->dataMeja = Meja::where('status', 'tersedia')->get();
+        // dd($this->dataMeja);
         if (\Auth::user()->role_id == 3) {
             $this->alamat = Alamat::where('user_id', \Auth::user()->id)->first();
             $this->nama = auth()->user()->pelanggan->nama;
@@ -53,7 +54,9 @@ class Create extends Component
         $this->validate();
         if ($this->data) {
             if ($this->tanggal || $this->waktu) {
-                $this->nomor = Meja::find($this->data);
+                $meja = Meja::find($this->data);
+                $this->nomor = $meja;
+                // dd($meja);
                 $pemesanan = Pemesanan::create([
                     'nama' => $this->nama,
                     'no_transaksi' => (string) \Str::uuid(),
@@ -75,6 +78,10 @@ class Create extends Component
                 $this->total = $pemesanan->total + $this->nomor->harga;
                 $this->mejaId = $this->nomor->id;
                 $this->res = true;
+
+                $meja->update([
+                    'status' => 'dipesan'
+                ]);
 
                 $this->emit('alert', ['type'  => 'success', 'message' =>  'Data ' . $this->nama . ' Berhasil Ditambah.']);
             } else {
